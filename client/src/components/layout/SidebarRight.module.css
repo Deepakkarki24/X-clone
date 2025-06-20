@@ -1,0 +1,133 @@
+.sidebarRight {
+    width: 400px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 6px;
+    padding-left: 2.5%;
+    max-height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebarRight::-webkit-scrollbar {
+    display: none;
+}
+
+.search {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background-color: transparent;
+    color: var(--primary-color-two);
+    text-indent: 18px;
+}
+
+.search_icon {
+    font-size: 24px !important;
+    color: rgb(111, 116, 121);
+}
+
+.search_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(32, 35, 39);
+    border-radius: 60px;
+    padding: 10px 16px;
+}
+
+.subscribe {
+    background-color: var(--primary-color-four);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin: 18px 0;
+    width: 100%;
+    position: relative;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.desc {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 400;
+    color: inherit;
+}
+
+
+.trending_events_box {
+    overflow: hidden;
+}
+
+.timelineEmbed {
+    margin: 10px 0;
+}
+
+.hastagEmbed {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.shareEmbed {
+    margin: 10px 0;
+}
+
+.follow_embed {
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .sidebarRight {
+        display: none;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 884px) {
+    .sidebarRight {
+        display: none;
+    }
+}
+
+.trending_event {
+    margin: 18px 0 30px 0;
+}
+
+.fadeTitle {
+    font-size: 13px;
+    color: var(--fade-text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.boldTitle {
+    font-size: 16px;
+    color: var(--primary-color-two);
+    margin: 0;
+    padding: 0;
+}
+
+.trending_event {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.icon {
+    color: var(--fade-text-color);
+    font-size: 22px;
+}
+
+.box_style {
+    background-color: var(--primary-color-four);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin: 18px 0;
+    width: 100%;
+}

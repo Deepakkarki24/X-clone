@@ -1,0 +1,256 @@
+.feed {
+    border: 1px solid var(--border-line-color);
+    border-bottom: none;
+    width: 700px;
+    position: relative;
+}
+
+.top_navigation {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    width: 100%;
+    border-bottom: 1px solid var(--border-line-color);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--primary-color-one);
+}
+
+.navigation {
+    width: 50%;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #787c7e;
+    cursor: pointer;
+}
+
+.navigation_isActive {
+    border-bottom: 2px solid var(--primary-color-three);
+    font-weight: 700;
+    color: var(--primary-color-two);
+}
+
+.navigation:hover {
+    background-color: var(--bg-hover-color);
+}
+
+.navigation .name_span {
+    position: relative;
+}
+
+
+.post_section {
+    padding: 18px 18px 10px 18px;
+    border-bottom: 1px solid var(--border-line-color);
+    /* display: none; */
+}
+
+
+
+.user_input {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action_icon {
+    color: var(--primary-color-three);
+    font-size: 18px !important;
+}
+
+.form_control {
+    background-color: transparent;
+    font-size: 20px;
+    width: 100%;
+    text-indent: 10px;
+    border: none;
+    outline: none;
+    color: var(--primary-color-two);
+    font-family: 400;
+}
+
+.user_actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10%;
+    margin-top: 18px;
+}
+
+.icon_box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+
+.tooltip {
+    background: #424141;
+    border-radius: 8px;
+    color: #fff;
+    content: "";
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px;
+    position: absolute;
+    bottom: 100%;
+    transform: translate(-50px -50px);
+    opacity: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inner_rapper:hover .tooltip {
+    opacity: 1;
+}
+
+.inner_rapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.fileIcon {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color-three);
+}
+
+.upload_actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.support_inputbtn {
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    left: 0;
+    opacity: 0;
+    /* border: 2px solid red; */
+    cursor: pointer !important;
+}
+
+@media (max-width: 768px) {
+    input {
+        width: 65%;
+    }
+
+    .feed {
+        width: 360px;
+    }
+
+    .icon_box {
+        gap: 16px;
+    }
+
+    .post_section {
+        display: none;
+    }
+
+    .user_actions {
+        width: 90%;
+    }
+
+    .post_section_mob {
+        position: fixed;
+        background-color: #000;
+        z-index: 9;
+        top: 0;
+        width: 370px;
+        height: 100vh;
+        padding: 18px 0;
+        left: 0;
+        display: block;
+    }
+
+    .sticky_icon_mob {
+        visibility: visible !important;
+    }
+
+    .top_navigation {
+        justify-content: center;
+        top: 32px;
+    }
+
+    .mob_top_nav {
+        display: block !important;
+    }
+
+    .setting_box {
+        display: none;
+    }
+
+    .back_icon_box {
+        display: block !important;
+    }
+
+    .mob_hide {
+        display: block !important;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 884px) {
+    .feed {
+        width: 700px;
+    }
+
+    .top_navigation {
+        top: 0;
+    }
+
+}
+
+.sticky_icon_mob {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color-three);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 6%;
+    bottom: 100px;
+    z-index: 99;
+    visibility: hidden;
+}
+
+.logo svg {
+    width: 30px;
+    filter: invert();
+}
+
+.flex_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    background-color: var(--primary-color-one);
+}
+
+.mob_top_nav {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.backIcon {
+    cursor: pointer;
+}
+
+.back_icon_box {
+    display: none;
+}
+
+.mob_hide {
+    display: none;
+}

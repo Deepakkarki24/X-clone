@@ -1,0 +1,131 @@
+.post_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 550px;
+    margin: 0 auto;
+    padding-top: 10px;
+
+}
+
+.post {
+    max-width: 550px;
+    margin: 0 auto;
+    padding-left: 50px;
+}
+
+
+.post img {
+    border-radius: 20px;
+    width: 100%;
+    height: auto;
+}
+
+.post_wrapper {
+    position: relative;
+    border-bottom: 1px solid var(--border-line-color);
+    overflow: hidden;
+}
+
+
+.display_name h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--primary-color-two);
+}
+
+.verified_ico {
+    color: var(--primary-color-three);
+    font-size: 18px !important;
+}
+
+.user_name h4 {
+    font-size: 14px;
+    color: var(--fade-text-color);
+    font-weight: 400;
+    text-transform: lowercase;
+    margin: 0;
+}
+
+.user_det {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.more_icon {
+    font-size: 18px !important;
+
+}
+
+.caption p {
+    font-size: 16px;
+    color: var(--primary-color-two);
+    font-weight: 400;
+}
+
+.caption {
+    max-width: 550px;
+    margin: 0 auto;
+    padding-left: 50px;
+}
+
+.engagement_action_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 550px;
+    margin: 0 auto;
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.engagement_action_icon {
+    font-size: 20px !important;
+    color: var(--fade-text-color);
+    cursor: pointer;
+}
+
+.action_icon_box {
+    position: relative;
+    cursor: pointer;
+}
+
+.tooltip {
+    background: #000;
+    border-radius: 8px;
+    color: #fff !important;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px;
+    position: absolute;
+    z-index: 99;
+    top: -30px;
+    right: 50%;
+    transform: translateX(50%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.action_icon_box:hover .tooltip {
+    opacity: 1;
+}
+
+
+@media (min-width: 768px) and (max-width: 884px) {
+    .post_header {
+        max-width: 660px;
+    }
+
+    .post {
+        padding-left: 0;
+    }
+
+    .caption {
+        padding-left: 0;
+    }
+}

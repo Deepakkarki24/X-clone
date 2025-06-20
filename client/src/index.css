@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.global_white {
+  color: #E7E9EA;
+}
+
+/*  */
+
+:root {
+  --primary-color-one: #000;
+  --primary-color-two: #e7e9ea;
+  --primary-color-three: rgb(29, 155, 240);
+  --primary-color-four: rgb(32, 35, 39);
+  --bg-hover-color: #91909034;
+  --border-line-color: #2F3336;
+  --fade-text-color: #71767b
+}
