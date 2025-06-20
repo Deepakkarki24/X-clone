@@ -8,8 +8,6 @@ import { uuid } from "uuidv4";
 userRouter.post("/signup", async (req, res) => {
   let { name, email, password } = req.body;
 
-  // console.log(req.body);
-
   //Validation..
 
   if (!name || !email || !password) {
@@ -106,12 +104,54 @@ userRouter.post("/login", async (req, res) => {
     return res.json({
       success: true,
       message: "Successfully Logged IN!",
+      token: token,
       data: updatedUser,
     });
   } catch (error) {
     return res.json({
       success: false,
       message: "Error while saving user",
+    });
+  }
+});
+
+// Logout
+
+userRouter.delete("/logout", async (req, res) => {
+  let token = req.headers.authorization;
+  let foundUser = await User.findOne({ token: token });
+
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "No token found or not LoggedIn!",
+    });
+  }
+
+  try {
+    // find user by token
+
+    if (!foundUser) {
+      return res.json({
+        success: false,
+        message: "Invailid token or user already logged out",
+      });
+    }
+
+    // clear token to log the user out
+
+    foundUser.token = null;
+    let updatedUser = await foundUser.save();
+
+    return res.json({
+      success: true,
+      message: "Succesfully Logged out",
+      data: updatedUser,
+    });
+  } catch (err) {
+    return res.json({
+      success: false,
+      message: err.message,
     });
   }
 });

@@ -9,20 +9,17 @@ import Logout from "../auth/Logout";
 
 const Layout = () => {
   let { token, loading } = useContext(UserContext);
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   let [logoutModal, setLogoutModal] = useState(false);
-
-  console.log(logoutModal);
 
   useEffect(() => {
     if (!loading && !token) {
       navigate("/login");
     }
   }, [loading, token]);
-  {
-    if (loading) return <LoadingPage />;
-  }
+
+  if (loading) return <LoadingPage />;
   return (
     <div className="layout_bx flex px-12 bg-black">
       <SideBar setLogoutModal={setLogoutModal} />

@@ -5,21 +5,29 @@ import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import axios from "axios";
 
 const Logout = ({ setLogoutModal }) => {
   let { setToken, token } = useContext(UserContext);
   let nav = useNavigate();
-  console.log("before", token);
+
   const handleLogout = () => {
     let localToken = localStorage.getItem("token");
     if (localToken) {
-      localStorage.removeItem("token");
+      axios
+        .delete("http://localhost:3001/logout", {
+          headers: {
+            Authorization: localToken,
+          },
+        })
+        .then((res) => {
+          localStorage.removeItem("token");
+        });
+
       setToken("");
     }
     nav("/");
   };
-
-  console.log("after", token);
 
   return (
     <div className="logout_modal relative">
