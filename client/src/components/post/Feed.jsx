@@ -7,7 +7,6 @@ import { useContext, useState } from "react";
 import Post from "./Post";
 import Avatar from "@mui/material/Avatar";
 import TweetBox from "./TweetBox";
-import { Link } from "react-router-dom";
 import FollowingFeed from "./FollowingFeed";
 import { TweetContext } from "../../context/TweetContext";
 

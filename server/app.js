@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import User from "./models/user.models.js";
+import Post from "./models/post.models.js";
 import userRouter from "./routes/user.routes.js";
+import postRouter from "./routes/post.routes.js";
 
 const app = express();
 const port = 3001;
@@ -20,6 +22,7 @@ app.use(express.json());
 
 // Routes next
 app.use(userRouter);
+app.use(postRouter);
 
 mongoose
   .connect(

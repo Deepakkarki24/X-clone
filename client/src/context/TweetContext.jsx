@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import img from "../assets/post.jpg";
+import axios from "axios";
 
 export let TweetContext = createContext();
 
@@ -46,10 +47,25 @@ const TweetContextProvider = ({ children }) => {
 
     if (!newTweet.tweetMedia && !newTweet.tweetText) return;
 
-    setTweets((prev) => [newTweet, ...prev]);
+    axios
+      .post("http://localhost:3001/add-tweet", newTweet)
+      .then()
+      .catch((err) => console.log(err));
 
     setTweet(initialState);
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/get-posts").then((res) => {
+      res.data.data.map((item) => {
+        let post = {
+          tweetText: item.tweetText,
+          tweetMedia: item.tweetMedia,
+        };
+        setTweets((prev) => [post, ...prev]);
+      });
+    });
+  }, []);
   return (
     <TweetContext.Provider
       value={{ handleChange, tweetText, tweetMedia, sendTweet, tweets }}

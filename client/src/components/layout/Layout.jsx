@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import Logout from "../auth/Logout";
 
+// import { TweetContext } from "../../context/TweetContext";
+
 const Layout = () => {
   let { token, loading } = useContext(UserContext);
   // let navigate = useNavigate();
