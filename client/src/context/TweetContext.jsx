@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import img from "../assets/post.jpg";
 import axios from "axios";
-
 export let TweetContext = createContext();
 
 const TweetContextProvider = ({ children }) => {
@@ -10,15 +9,16 @@ const TweetContextProvider = ({ children }) => {
     tweetMedia: null,
   };
 
+  let initialTweet = {
+    tweetText: " Testingg...🤺",
+    tweetMedia: img,
+  };
+
+  const [addedPost, setAddedPost] = useState(false);
   const [tweet, setTweet] = useState(() => initialState);
 
   // all tweets list
-  const [tweets, setTweets] = useState([
-    {
-      tweetText: " Testingg...🤺",
-      tweetMedia: img,
-    },
-  ]);
+  const [tweets, setTweets] = useState([]);
 
   const handleChange = (e) => {
     let { name, value, files } = e.target;
@@ -49,23 +49,32 @@ const TweetContextProvider = ({ children }) => {
 
     axios
       .post("http://localhost:3001/add-tweet", newTweet)
-      .then()
+      .then((res) => {
+        if (res) {
+          setAddedPost(true);
+        }
+      })
       .catch((err) => console.log(err));
 
     setTweet(initialState);
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/get-posts").then((res) => {
-      res.data.data.map((item) => {
-        let post = {
-          tweetText: item.tweetText,
-          tweetMedia: item.tweetMedia,
-        };
-        setTweets((prev) => [post, ...prev]);
-      });
+    axios.get("http://localhost:3001/get-posts").then((res, req) => {
+      // res.data.data.map((item) => {
+      //   let post = {
+      //     tweetText: item.tweetText,
+      //     tweetMedia: item.tweetMedia,
+      //   };
+
+      //   setTweets([...tweets, post]);
+      // });
+
+      setTweets([...res.data.data, initialTweet]);
+
+      setAddedPost(false);
     });
-  }, []);
+  }, [addedPost]);
   return (
     <TweetContext.Provider
       value={{ handleChange, tweetText, tweetMedia, sendTweet, tweets }}

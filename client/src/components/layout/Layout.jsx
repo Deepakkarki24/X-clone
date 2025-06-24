@@ -11,7 +11,7 @@ import Logout from "../auth/Logout";
 
 const Layout = () => {
   let { token, loading } = useContext(UserContext);
-  // let navigate = useNavigate();
+  let navigate = useNavigate();
 
   let [logoutModal, setLogoutModal] = useState(false);
 

@@ -20,12 +20,14 @@ const Logout = ({ setLogoutModal }) => {
             Authorization: localToken,
           },
         })
+
         .then((res) => {
           localStorage.removeItem("token");
         });
 
       setToken("");
     }
+
     nav("/");
   };
 

@@ -45,7 +45,6 @@ postRouter.post("/add-tweet", async (req, res) => {
 postRouter.get("/get-posts", async (req, res) => {
   try {
     let post = await Post.find().sort({ createdAt: -1 });
-
     return res.json({
       success: true,
       message: "Succesfully fetched data!",
