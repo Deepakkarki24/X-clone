@@ -11,6 +11,7 @@ import FollowingFeed from "./FollowingFeed";
 import { TweetContext } from "../../context/TweetContext";
 import PostBuffer from "../PostBuffer";
 import { useEffect } from "react";
+import { UserContext } from "../../context/UserContext";
 
 function Feed() {
   const [isActiveTab, setIsActiveTab] = useState(() => ({
@@ -22,6 +23,8 @@ function Feed() {
   const { tabname, isActiveForyou, isActiveFollowing } = isActiveTab;
 
   const { tweets, setPostLoading, postLoading } = useContext(TweetContext);
+
+  const { displayUserName } = useContext(UserContext);
 
   useEffect(() => {
     setPostLoading(false);
@@ -87,7 +90,7 @@ function Feed() {
             <Post
               key={index}
               avatar="src/assets/profile.jpg"
-              displayName="Deepak karki"
+              displayName={displayUserName}
               verified="verified"
               userName="deepak_heree"
               captionText={tweet.tweetText}

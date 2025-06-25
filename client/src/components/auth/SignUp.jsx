@@ -1,123 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaS, FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 import LoadingPage from "../LoadingPage";
 import Button from "../ButtonB&W";
+import { UserContext } from "../../context/UserContext";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const [isloading, setIsLoading] = useState(false);
-  const [dbMessage, setDbMessage] = useState({
-    err: {
-      message: "",
-    },
-    success: {
-      message: "",
-    },
-  });
+  let { handleSignupFormSubmit, userDetails, isloading, dbMessage, errors } =
+    useContext(UserContext);
 
-  const userDetails = {
-    username: useRef(),
-    email: useRef(),
-    password: useRef(),
-    confirmPassword: useRef(),
-  };
-
-  const { username, email, password, confirmPassword } = userDetails;
-
-  const [errors, setErrors] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleSignupFormSubmit = (e) => {
-    e.preventDefault();
-
-    const usernameVal = username.current.value.trim();
-    const emailVal = email.current.value.trim();
-    const passwordVal = password.current.value.trim();
-    const confirmPasswordVal = confirmPassword.current.value.trim();
-
-    const newErrors = {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    };
-
-    if (!usernameVal) {
-      newErrors.username = "Username is required!";
-    }
-    //  else if (!/^(?=.[a-z])(?=.[A-Z])(?=._).*$/.test(usernameVal)) {
-    //   newErrors.username = "Only letters, numbers, and underscores allowed!";
-    // }
-    else if (usernameVal.length < 3) {
-      newErrors.username = "Username must be at least 3 characters!";
-    }
-
-    if (!emailVal) {
-      newErrors.email = "Email is required!";
-    }
-
-    if (!passwordVal) {
-      newErrors.password = "Password is required!";
-    } else if (passwordVal.length < 6) {
-      newErrors.password = "Password must be at least 6 characters!";
-    }
-
-    if (!confirmPasswordVal) {
-      newErrors.confirmPassword = "Confirm password is required!";
-    } else if (passwordVal !== confirmPasswordVal) {
-      newErrors.confirmPassword = "Passwords do not match!";
-    }
-
-    setErrors(newErrors);
-
-    const hasErrors = Object.values(newErrors).some((error) => error !== "");
-    if (hasErrors) return;
-
-    username.current.value = "";
-    email.current.value = "";
-    password.current.value = "";
-    confirmPassword.current.value = "";
-
-    let userData = {
-      name: usernameVal,
-      email: emailVal,
-      password: passwordVal,
-    };
-
-    let submmited = axios
-      .post("http://localhost:3001/signup", userData)
-      .then((res) => {
-        if (res.data.success) {
-          setDbMessage((prev) => ({
-            err: { message: "" },
-            success: { message: res.data.message },
-          }));
-          setIsLoading(true);
-          setTimeout(() => {
-            navigate("/");
-            setIsLoading(false);
-          }, 3000);
-        } else {
-          setDbMessage((prev) => ({
-            ...prev,
-            err: { message: res.data.message },
-            success: { message: "" },
-          }));
-          return;
-        }
-      })
-      .catch((err) => {
-        return err;
-      });
-  };
+  let { username, email, password, confirmPassword } = userDetails;
 
   return (
     <>

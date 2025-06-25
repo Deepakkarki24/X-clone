@@ -4,11 +4,14 @@ import App from "./App.jsx";
 import "./index.css";
 import TweetContextProvider from "./context/TweetContext.jsx";
 import UserContextProvider from "./context/UserContext.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
-  <UserContextProvider>
-    <TweetContextProvider>
-      <App />
-    </TweetContextProvider>
-  </UserContextProvider>
+  <BrowserRouter>
+    <UserContextProvider>
+      <TweetContextProvider>
+        <App />
+      </TweetContextProvider>
+    </UserContextProvider>
+  </BrowserRouter>
 );

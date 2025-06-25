@@ -57,6 +57,7 @@ userRouter.post("/signup", async (req, res) => {
     res.json({
       success: true,
       message: "User data saved successfully!",
+      data: savedUser,
     });
   } catch (err) {
     res.json({
