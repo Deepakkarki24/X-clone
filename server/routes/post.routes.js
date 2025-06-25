@@ -1,22 +1,28 @@
 import express from "express";
 import { v4 as uuidv4 } from "uuid";
 
-const postRouter = express.Router();
-
+import multer from "multer";
+import { storage } from "../config/cloudinary.js";
 import Post from "../models/post.models.js";
 
-postRouter.post("/add-tweet", async (req, res) => {
-  let { tweetText, tweetMedia } = req.body;
+const postRouter = express.Router();
+const upload = multer({ storage });
 
-  console.log(tweetMedia, tweetText);
+postRouter.post("/add-tweet", upload.single("tweetMedia"), async (req, res) => {
+  let { tweetText } = req.body;
+  console.log(req.body);
 
   let postId = uuidv4();
+  // let userId = uuidv4();
 
   try {
     let newPost = new Post({
       postId: postId,
-      tweetMedia: tweetMedia,
       tweetText: tweetText,
+      tweetMedia: {
+        url: req.file?.path || "",
+        public_id: req.file?.filename,
+      },
     });
 
     let savedPost = await newPost.save();

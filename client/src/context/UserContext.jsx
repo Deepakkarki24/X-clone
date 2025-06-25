@@ -13,10 +13,9 @@ const UserContextProvider = ({ children }) => {
       const localToken = localStorage.getItem("token");
       if (localToken) {
         setToken(localToken);
+        setLoading(false);
       }
     }
-
-    setLoading(false);
   }, [token]);
 
   return (

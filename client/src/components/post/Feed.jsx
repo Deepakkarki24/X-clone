@@ -9,6 +9,8 @@ import Avatar from "@mui/material/Avatar";
 import TweetBox from "./TweetBox";
 import FollowingFeed from "./FollowingFeed";
 import { TweetContext } from "../../context/TweetContext";
+import PostBuffer from "../PostBuffer";
+import { useEffect } from "react";
 
 function Feed() {
   const [isActiveTab, setIsActiveTab] = useState(() => ({
@@ -19,7 +21,11 @@ function Feed() {
 
   const { tabname, isActiveForyou, isActiveFollowing } = isActiveTab;
 
-  const { tweets } = useContext(TweetContext);
+  const { tweets, setPostLoading, postLoading } = useContext(TweetContext);
+
+  useEffect(() => {
+    setPostLoading(false);
+  }, [tweets]);
 
   return (
     <>
@@ -73,6 +79,7 @@ function Feed() {
         </div>
 
         <TweetBox />
+        {postLoading && <PostBuffer />}
         {isActiveFollowing ? (
           <FollowingFeed />
         ) : (
@@ -84,7 +91,7 @@ function Feed() {
               verified="verified"
               userName="deepak_heree"
               captionText={tweet.tweetText}
-              media={tweet.tweetMedia}
+              media={tweet.tweetMedia.url}
             />
           ))
         )}

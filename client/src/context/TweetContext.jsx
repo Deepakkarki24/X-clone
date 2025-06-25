@@ -11,11 +11,14 @@ const TweetContextProvider = ({ children }) => {
 
   let initialTweet = {
     tweetText: " Testingg...🤺",
-    tweetMedia: img,
+    tweetMedia: {
+      url: img,
+    },
   };
 
   const [addedPost, setAddedPost] = useState(false);
   const [tweet, setTweet] = useState(() => initialState);
+  const [postLoading, setPostLoading] = useState(false);
 
   // all tweets list
   const [tweets, setTweets] = useState([]);
@@ -38,20 +41,25 @@ const TweetContextProvider = ({ children }) => {
   const sendTweet = (e) => {
     e.preventDefault();
 
-    let newTweet = {
-      tweetText: tweet.tweetText,
-      tweetMedia: tweet.tweetMedia
-        ? URL.createObjectURL(tweet.tweetMedia)
-        : null,
-    };
+    if (!tweetMedia && !tweetText) return;
 
-    if (!newTweet.tweetMedia && !newTweet.tweetText) return;
+    const formData = new FormData();
+
+    formData.append("tweetText", tweetText);
+    if (tweetMedia) {
+      formData.append("tweetMedia", tweetMedia);
+    }
 
     axios
-      .post("http://localhost:3001/add-tweet", newTweet)
+      .post("http://localhost:3001/add-tweet", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
-        if (res) {
+        if (res.data.success) {
           setAddedPost(true);
+          setPostLoading(true);
         }
       })
       .catch((err) => console.log(err));
@@ -61,15 +69,6 @@ const TweetContextProvider = ({ children }) => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/get-posts").then((res, req) => {
-      // res.data.data.map((item) => {
-      //   let post = {
-      //     tweetText: item.tweetText,
-      //     tweetMedia: item.tweetMedia,
-      //   };
-
-      //   setTweets([...tweets, post]);
-      // });
-
       setTweets([...res.data.data, initialTweet]);
 
       setAddedPost(false);
@@ -77,7 +76,15 @@ const TweetContextProvider = ({ children }) => {
   }, [addedPost]);
   return (
     <TweetContext.Provider
-      value={{ handleChange, tweetText, tweetMedia, sendTweet, tweets }}
+      value={{
+        handleChange,
+        tweetText,
+        tweetMedia,
+        sendTweet,
+        tweets,
+        setPostLoading,
+        postLoading,
+      }}
     >
       {children}
     </TweetContext.Provider>

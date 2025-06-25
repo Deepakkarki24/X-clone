@@ -10,7 +10,10 @@ const postSchema = new mongoose.Schema(
       type: String,
     },
     tweetMedia: {
-      type: String,
+      url: {
+        type: String,
+      },
+      public_id: { type: String },
     },
   },
   { timestamps: true }

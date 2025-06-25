@@ -68,8 +68,9 @@ const SideBar = ({ setLogoutModal }) => {
             isActiveClass="isntactive"
           />
           {/* Sidebar Options component */}
-
-          <Button btnElement={"Post"} />
+          <div className="w-[90%]">
+            <Button btnElement={"Post"} />
+          </div>
         </div>
 
         <div onClick={() => setLogoutModal(true)} className={styles.user}>
