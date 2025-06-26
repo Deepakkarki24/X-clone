@@ -10,18 +10,18 @@ import Logout from "../auth/Logout";
 // import { TweetContext } from "../../context/TweetContext";
 
 const Layout = () => {
-  let { token, loading } = useContext(UserContext);
+  let { token, tokenLoading } = useContext(UserContext);
   let navigate = useNavigate();
 
   let [logoutModal, setLogoutModal] = useState(false);
 
   useEffect(() => {
-    if (!loading && !token) {
+    if (!tokenLoading && !token) {
       navigate("/login");
     }
-  }, [loading, token]);
+  }, [tokenLoading, token]);
 
-  if (loading) return <LoadingPage />;
+  if (tokenLoading) return <LoadingPage />;
   return (
     <div className="layout_bx flex px-12 bg-black">
       <SideBar setLogoutModal={setLogoutModal} />

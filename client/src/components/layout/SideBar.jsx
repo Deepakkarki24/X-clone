@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import styles from "./SideBar.module.css";
 
@@ -8,14 +8,14 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearcIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import PersonIcon from "@mui/icons-material/Person";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "../ButtonB&W";
-import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const SideBar = ({ setLogoutModal }) => {
+  const { user } = useContext(UserContext);
   return (
     <>
       <div className={`${styles.sidebar} bg-black`}>
@@ -79,8 +79,8 @@ const SideBar = ({ setLogoutModal }) => {
               <Avatar src="/src/assets/profile.jpg" />
             </div>
             <div className={styles.user_name}>
-              <h3 className="name">Deepak Karki</h3>
-              <h4 className={styles.user_name}>@deepak_here24</h4>
+              <h3 className="name">{user.name}</h3>
+              <h4 className={styles.user_name}>@{user.username}</h4>
             </div>
           </div>
           <MoreHorizIcon className={styles.more_icon} />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext } from "react";
 import { FaS, FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
@@ -8,10 +8,15 @@ import { UserContext } from "../../context/UserContext";
 const SignUp = () => {
   const navigate = useNavigate();
 
-  let { handleSignupFormSubmit, userDetails, isloading, dbMessage, errors } =
-    useContext(UserContext);
+  let {
+    handleSignupFormSubmit,
+    userDetails,
+    isloading,
+    signupDbMessage,
+    signupErrors,
+  } = useContext(UserContext);
 
-  let { username, email, password, confirmPassword } = userDetails;
+  let { name, username, email, password, confirmPassword } = userDetails;
 
   return (
     <>
@@ -25,71 +30,86 @@ const SignUp = () => {
               }}
               className="cursor-pointer"
             />
-            <div className="inner_bx m-9">
+            <div className="inner_bx p-6">
               <span className="text-2xl font-bold">Create your account</span>
-              <div className="form_bx my-6">
+              <div className="form_bx my-4">
                 <form onSubmit={(e) => handleSignupFormSubmit(e)}>
-                  <div className="field mb-6">
+                  <div className="field mb-4">
                     <input
-                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2.5"
+                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2"
+                      type="text"
+                      name="name"
+                      placeholder="Name"
+                      ref={name}
+                      autoComplete="off"
+                    />
+                    {signupErrors.name && (
+                      <p className="text-[14px] mt-[2px] text-red-500">
+                        {signupErrors.name}
+                      </p>
+                    )}
+                  </div>
+                  <div className="field mb-4">
+                    <input
+                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2"
                       type="text"
                       name="username"
                       placeholder="Username"
                       ref={username}
                       autoComplete="off"
                     />
-                    {errors.username && (
+                    {signupErrors.username && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.username}
+                        {signupErrors.username}
                       </p>
                     )}
                   </div>
-                  <div className="feild mb-6">
+                  <div className="feild mb-4">
                     <input
-                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2.5"
+                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2"
                       type="email"
                       name="email"
                       placeholder="Email"
                       ref={email}
                     />
-                    {errors.email && (
+                    {signupErrors.email && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.email}
+                        {signupErrors.email}
                       </p>
                     )}
                   </div>
 
-                  <div className="feild mb-6">
+                  <div className="feild mb-4">
                     <input
-                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2.5"
+                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2"
                       type="password"
                       name="password"
                       placeholder="Password"
                       ref={password}
                     />
-                    {errors.password && (
+                    {signupErrors.password && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.password}
+                        {signupErrors.password}
                       </p>
                     )}
                   </div>
 
-                  <div className="feild mb-6">
+                  <div className="feild mb-4">
                     <input
-                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2.5"
+                      className="border-[1px] rounded-[6px] border-[#6c6b6b] w-full p-2"
                       type="password"
                       name="confirm-password"
                       placeholder="Confirm Password"
                       ref={confirmPassword}
                     />
-                    {errors.confirmPassword && (
+                    {signupErrors.confirmPassword && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.confirmPassword}
+                        {signupErrors.confirmPassword}
                       </p>
                     )}
-                    {dbMessage.err && (
+                    {signupDbMessage.err && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {dbMessage.err.message}
+                        {signupDbMessage.err.message}
                       </p>
                     )}
                   </div>

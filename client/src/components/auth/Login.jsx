@@ -3,96 +3,18 @@ import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import LoadingPage from "../LoadingPage";
 import { UserContext } from "../../context/UserContext";
 
-import LoadingPage from "../LoadingPage";
-
 const Login = () => {
-  const { setToken, token } = useContext(UserContext);
-
   const navigate = useNavigate();
-
-  const userDetails = {
-    username: useRef(),
-    password: useRef(),
-  };
-
-  // Loading state for after signin
-  const [isloading, setIsLoading] = useState(false);
-
-  // error from frontend to frontend
-  const [errors, setErrors] = useState({
-    userEmail: "",
-    userPass: "",
-  });
-
-  // error from Db to frontend
-  const [dbMessage, setDbMessage] = useState({
-    success: {
-      message: "",
-    },
-    error: {
-      message: "",
-    },
-  });
-
-  const { username, password } = userDetails;
-
-  const handleSigninForm = (e) => {
-    e.preventDefault();
-    let userEmail = username.current.value.trim();
-    let userPassword = password.current.value.trim();
-
-    const newErrors = {
-      userEmail: "",
-      userPass: "",
-    };
-
-    if (!userEmail) {
-      newErrors.userEmail = "User email is required";
-    }
-
-    if (!userPassword) {
-      newErrors.userPass = "User password is required";
-    }
-
-    setErrors(newErrors);
-
-    const hasErrors = Object.values(newErrors).some((error) => error !== "");
-
-    if (hasErrors) return;
-
-    let userData = {
-      email: userEmail,
-      password: userPassword,
-    };
-
-    let loggedIn = axios
-      .post("http://localhost:3001/login", userData)
-      .then((res) => {
-        if (res.data.success) {
-          setToken(res.data.data.token);
-          setDbMessage((prev) => ({
-            success: { message: res.data.message },
-          }));
-          setIsLoading(true);
-          setTimeout(() => {
-            navigate("/layout");
-            setIsLoading(false);
-          }, 1500);
-        } else {
-          setDbMessage((prev) => ({
-            error: { message: res.data.message },
-          }));
-
-          return;
-        }
-      })
-      .catch((err) => console.log(err));
-
-    username.current.value = "";
-    password.current.value = "";
-  };
+  const {
+    isloading,
+    userLoginDetails,
+    loginErrors,
+    loginDbMessage,
+    handleSigninForm,
+  } = useContext(UserContext);
 
   return (
     <>
@@ -117,11 +39,11 @@ const Login = () => {
                       type="text"
                       name="email"
                       placeholder="Email"
-                      ref={username}
+                      ref={userLoginDetails.username}
                     />
-                    {errors.userEmail && (
+                    {loginErrors.userEmail && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.userEmail}
+                        {loginErrors.userEmail}
                       </p>
                     )}
                   </div>
@@ -131,17 +53,17 @@ const Login = () => {
                       type="password"
                       name="password"
                       placeholder="Password"
-                      ref={password}
+                      ref={userLoginDetails.password}
                     />
 
-                    {errors.userPass && (
+                    {loginErrors.userPass && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {errors.userPass}
+                        {loginErrors.userPass}
                       </p>
                     )}
-                    {dbMessage.error && (
+                    {loginDbMessage.error && (
                       <p className="text-[14px] mt-[2px] text-red-500">
-                        {dbMessage.error.message}
+                        {loginDbMessage.error.message}
                       </p>
                     )}
                   </div>

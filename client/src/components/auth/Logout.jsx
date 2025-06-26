@@ -8,7 +8,7 @@ import { UserContext } from "../../context/UserContext";
 import axios from "axios";
 
 const Logout = ({ setLogoutModal }) => {
-  let { setToken, token } = useContext(UserContext);
+  let { setToken } = useContext(UserContext);
   let nav = useNavigate();
 
   const handleLogout = () => {

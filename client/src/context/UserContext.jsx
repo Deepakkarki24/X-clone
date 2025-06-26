@@ -5,15 +5,15 @@ import axios from "axios";
 export let UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  let [token, setToken] = useState("");
-  let [loading, setLoading] = useState(true);
-  let [displayUserName, setDisplayUserName] = useState("");
+  // user logic variables
+  let [token, setToken] = useState();
+  let [tokenLoading, setTokenLoading] = useState(true); //token loading
+  let [user, setUser] = useState("");
   const navigate = useNavigate();
 
-  // Singup logic
-
-  const [isloading, setIsLoading] = useState(false);
-  const [dbMessage, setDbMessage] = useState({
+  // Singup logic starts
+  const [isloading, setIsLoading] = useState(false); //temp loading
+  const [signupDbMessage, setSignupDbMessage] = useState({
     err: {
       message: "",
     },
@@ -23,15 +23,15 @@ const UserContextProvider = ({ children }) => {
   });
 
   const userDetails = {
+    name: useRef(),
     username: useRef(),
     email: useRef(),
     password: useRef(),
     confirmPassword: useRef(),
   };
 
-  const { username, email, password, confirmPassword } = userDetails;
-
-  const [errors, setErrors] = useState({
+  const [signupErrors, setSignupErrors] = useState({
+    name: "",
     username: "",
     email: "",
     password: "",
@@ -41,72 +41,81 @@ const UserContextProvider = ({ children }) => {
   const handleSignupFormSubmit = (e) => {
     e.preventDefault();
 
-    const usernameVal = username.current.value.trim();
-    const emailVal = email.current.value.trim();
-    const passwordVal = password.current.value.trim();
-    const confirmPasswordVal = confirmPassword.current.value.trim();
+    const nameVal = userDetails.name.current.value.trim();
+    const usernameVal = userDetails.username.current.value.trim();
+    const emailVal = userDetails.email.current.value.trim();
+    const passwordVal = userDetails.password.current.value.trim();
+    const confirmPasswordVal = userDetails.confirmPassword.current.value.trim();
 
-    const newErrors = {
+    const newSignupErrors = {
+      name: "",
       username: "",
       email: "",
       password: "",
       confirmPassword: "",
     };
 
+    if (!nameVal) {
+      newSignupErrors.name = "Name is required!";
+    }
+
     if (!usernameVal) {
-      newErrors.username = "Username is required!";
+      newSignupErrors.username = "Username is required!";
     } else if (usernameVal.length < 3) {
-      newErrors.username = "Username must be at least 3 characters!";
+      newSignupErrors.username = "Username must be at least 3 characters!";
     }
 
     if (!emailVal) {
-      newErrors.email = "Email is required!";
+      newSignupErrors.email = "Email is required!";
     }
 
     if (!passwordVal) {
-      newErrors.password = "Password is required!";
+      newSignupErrors.password = "Password is required!";
     } else if (passwordVal.length < 6) {
-      newErrors.password = "Password must be at least 6 characters!";
+      newSignupErrors.password = "Password must be at least 6 characters!";
     }
 
     if (!confirmPasswordVal) {
-      newErrors.confirmPassword = "Confirm password is required!";
+      newSignupErrors.confirmPassword = "Confirm password is required!";
     } else if (passwordVal !== confirmPasswordVal) {
-      newErrors.confirmPassword = "Passwords do not match!";
+      newSignupErrors.confirmPassword = "Passwords do not match!";
     }
 
-    setErrors(newErrors);
+    setSignupErrors(newSignupErrors);
 
-    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+    const hasErrors = Object.values(newSignupErrors).some(
+      (error) => error !== ""
+    );
     if (hasErrors) return;
 
-    username.current.value = "";
-    email.current.value = "";
-    password.current.value = "";
-    confirmPassword.current.value = "";
+    userDetails.name.current.value = "";
+    userDetails.username.current.value = "";
+    userDetails.email.current.value = "";
+    userDetails.password.current.value = "";
+    userDetails.confirmPassword.current.value = "";
 
     let userData = {
-      name: usernameVal,
+      name: nameVal,
+      username: usernameVal,
       email: emailVal,
       password: passwordVal,
     };
 
-    let submmited = axios
+    let submitted = axios
       .post("http://localhost:3001/signup", userData)
       .then((res) => {
         if (res.data.success) {
-          setDbMessage((prev) => ({
+          setSignupDbMessage((prev) => ({
             err: { message: "" },
             success: { message: res.data.message },
           }));
-          setDisplayUserName(res.data.data.name);
           setIsLoading(true);
           setTimeout(() => {
             navigate("/");
             setIsLoading(false);
           }, 2000);
         } else {
-          setDbMessage((prev) => ({
+          setSignupDbMessage((prev) => ({
             ...prev,
             err: { message: res.data.message },
             success: { message: "" },
@@ -118,15 +127,113 @@ const UserContextProvider = ({ children }) => {
         return err;
       });
   };
+  // signup logic ends
+
+  // login logic starts
+  const userLoginDetails = {
+    username: useRef(),
+    password: useRef(),
+  };
+
+  // error from frontend to frontend
+  const [loginErrors, setLoginErrors] = useState({
+    userEmail: "",
+    userPass: "",
+  });
+
+  // error from Db to frontend
+  const [loginDbMessage, setLoginDbMessage] = useState({
+    success: {
+      message: "",
+    },
+    error: {
+      message: "",
+    },
+  });
+
+  const handleSigninForm = (e) => {
+    e.preventDefault();
+    let userEmail = userLoginDetails.username.current.value.trim();
+    let userPassword = userLoginDetails.password.current.value.trim();
+
+    const newErrors = {
+      userEmail: "",
+      userPass: "",
+    };
+
+    if (!userEmail) {
+      newErrors.userEmail = "User email is required";
+    }
+
+    if (!userPassword) {
+      newErrors.userPass = "User password is required";
+    }
+
+    setLoginErrors(newErrors);
+
+    const hasErrors = Object.values(newErrors).some((error) => error !== "");
+
+    if (hasErrors) return;
+
+    let userData = {
+      email: userEmail,
+      password: userPassword,
+    };
+
+    let loggedIn = axios
+      .post("http://localhost:3001/login", userData)
+      .then((res) => {
+        if (res.data.success) {
+          setToken(res.data.data.token);
+          setLoginDbMessage((prev) => ({
+            success: { message: res.data.message },
+          }));
+          setIsLoading(true);
+          setTimeout(() => {
+            navigate("/layout");
+            setIsLoading(false);
+          }, 1500);
+        } else {
+          setLoginDbMessage((prev) => ({
+            error: { message: res.data.message },
+          }));
+
+          return;
+        }
+      })
+      .catch((err) => console.log(err));
+
+    userLoginDetails.username.current.value = "";
+    userLoginDetails.password.current.value = "";
+  };
+  // login logic ends
 
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
-    } else if (!token) {
+      setTokenLoading(false);
+      axios
+        .get("http://localhost:3001/get-user-details", {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => setUser(res.data.data))
+        .catch((err) => err);
+    } else {
       const localToken = localStorage.getItem("token");
       if (localToken) {
         setToken(localToken);
-        setLoading(false);
+        axios
+          .get("http://localhost:3001/get-user-details", {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((res) => setUser(res.data.data))
+          .catch((err) => err);
+      } else {
+        setTokenLoading(false);
       }
     }
   }, [token]);
@@ -136,13 +243,17 @@ const UserContextProvider = ({ children }) => {
       value={{
         token,
         setToken,
-        loading,
+        tokenLoading,
         handleSignupFormSubmit,
         userDetails,
         isloading,
-        dbMessage,
-        errors,
-        displayUserName,
+        signupDbMessage,
+        signupErrors,
+        handleSigninForm,
+        userLoginDetails,
+        loginErrors,
+        loginDbMessage,
+        user,
       }}
     >
       {children}

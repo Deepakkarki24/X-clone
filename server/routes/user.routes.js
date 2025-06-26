@@ -3,14 +3,14 @@ import express from "express";
 const userRouter = express.Router();
 
 import User from "../models/user.models.js";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 userRouter.post("/signup", async (req, res) => {
-  let { name, email, password } = req.body;
+  let { name, username, email, password } = req.body;
 
   //Validation..
 
-  if (!name || !email || !password) {
+  if (!name || !username || !email || !password) {
     return res.json({
       success: false,
       message: "All fields are required.",
@@ -41,6 +41,7 @@ userRouter.post("/signup", async (req, res) => {
     //create new user with the User schema object from usermodels.
     let newUser = new User({
       name: name,
+      username: username,
       email: email,
       password: password,
     });
@@ -71,7 +72,6 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/login", async (req, res) => {
   let { email, password } = req.body;
-  // console.log(req.body);
 
   if (!email || !password) {
     return res.json({
@@ -96,7 +96,7 @@ userRouter.post("/login", async (req, res) => {
     });
   }
 
-  const token = uuid();
+  const token = uuidv4();
   foundUser.token = token;
 
   try {
@@ -149,6 +149,46 @@ userRouter.delete("/logout", async (req, res) => {
       message: "Succesfully Logged out",
       data: updatedUser,
     });
+  } catch (err) {
+    return res.json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+userRouter.get("/get-user-details", async (req, res) => {
+  let token = req.headers.authorization;
+
+  let foundUser = await User.findOne({ token: token });
+
+  console.log(foundUser);
+  if (!token) {
+    return res.json({
+      success: false,
+      message: "No token found or not logged In!!",
+    });
+  }
+
+  if (!foundUser) {
+    return res.json({
+      success: false,
+      message: "No user found or user logged out",
+    });
+  }
+
+  try {
+    if (foundUser) {
+      return res.json({
+        success: true,
+        message: "User found!",
+        data: {
+          name: foundUser.name,
+          username: foundUser.username,
+          email: foundUser.email,
+        },
+      });
+    }
   } catch (err) {
     return res.json({
       success: false,

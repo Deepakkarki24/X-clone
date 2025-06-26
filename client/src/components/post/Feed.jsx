@@ -20,12 +20,12 @@ function Feed() {
     isActiveFollowing: false,
   }));
 
-  const { tabname, isActiveForyou, isActiveFollowing } = isActiveTab;
+  const { tabname, isActiveFollowing } = isActiveTab;
 
   const { tweets, setPostLoading, postLoading } = useContext(TweetContext);
 
-  const { displayUserName } = useContext(UserContext);
-
+  const { user } = useContext(UserContext);
+  console.log(user);
   useEffect(() => {
     setPostLoading(false);
   }, [tweets]);
@@ -90,9 +90,9 @@ function Feed() {
             <Post
               key={index}
               avatar="src/assets/profile.jpg"
-              displayName={displayUserName}
+              displayName={user.name}
               verified="verified"
-              userName="deepak_heree"
+              userName={user.username}
               captionText={tweet.tweetText}
               media={tweet.tweetMedia.url}
             />
