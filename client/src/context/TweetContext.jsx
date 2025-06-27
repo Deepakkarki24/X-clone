@@ -20,6 +20,8 @@ const TweetContextProvider = ({ children }) => {
   const [tweet, setTweet] = useState(() => initialState);
   const [postLoading, setPostLoading] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // all tweets list
   const [tweets, setTweets] = useState([]);
 
@@ -49,8 +51,6 @@ const TweetContextProvider = ({ children }) => {
     if (tweetMedia) {
       formData.append("tweetMedia", tweetMedia);
     }
-
-    const API_URL = process.env.REACT_APP_API_URL;
 
     axios
       .post(`${API_URL}/add-tweet`, formData, {

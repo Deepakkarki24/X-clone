@@ -11,7 +11,7 @@ const UserContextProvider = ({ children }) => {
   let [user, setUser] = useState("");
   const navigate = useNavigate();
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Singup logic starts
   const [isloading, setIsLoading] = useState(false); //temp loading
@@ -192,7 +192,7 @@ const UserContextProvider = ({ children }) => {
           }));
           setIsLoading(true);
           setTimeout(() => {
-            navigate("/layout");
+            navigate("/dashboard/feed");
             setIsLoading(false);
           }, 1500);
         } else {
