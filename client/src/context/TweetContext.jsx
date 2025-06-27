@@ -50,8 +50,10 @@ const TweetContextProvider = ({ children }) => {
       formData.append("tweetMedia", tweetMedia);
     }
 
+    const API_URL = process.env.REACT_APP_API_URL;
+
     axios
-      .post("http://localhost:3001/add-tweet", formData, {
+      .post(`${API_URL}/add-tweet`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -68,7 +70,7 @@ const TweetContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/get-posts").then((res, req) => {
+    axios.get(`${API_URL}/get-posts`).then((res, req) => {
       setTweets([...res.data.data, initialTweet]);
 
       setAddedPost(false);

@@ -2,7 +2,7 @@
     width: 278px;
     display: flex;
     flex-direction: column;
-    max-height: 100vh;
+    height: 100vh;
     justify-content: space-between;
     overflow: auto;
     padding: 10px 0;

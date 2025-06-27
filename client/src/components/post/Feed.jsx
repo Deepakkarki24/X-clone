@@ -1,7 +1,6 @@
 import styles from "./Feed.module.css";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-
-// import img from "../../assets/post.jpg";
+import profileImg from "../../assets/profile.jpg";
 
 import { useContext, useState } from "react";
 import Post from "./Post";
@@ -25,7 +24,7 @@ function Feed() {
   const { tweets, setPostLoading, postLoading } = useContext(TweetContext);
 
   const { user } = useContext(UserContext);
-  console.log(user);
+
   useEffect(() => {
     setPostLoading(false);
   }, [tweets]);
@@ -89,10 +88,10 @@ function Feed() {
           tweets.map((tweet, index) => (
             <Post
               key={index}
-              avatar="src/assets/profile.jpg"
-              displayName={user.name}
+              avatar={profileImg}
+              displayName={user && user.name}
               verified="verified"
-              userName={user.username}
+              userName={user && user.username}
               captionText={tweet.tweetText}
               media={tweet.tweetMedia.url}
             />

@@ -1,7 +1,7 @@
 .feed {
     border: 1px solid var(--border-line-color);
     border-bottom: none;
-    width: 700px;
+    width: 100%;
     position: relative;
 }
 

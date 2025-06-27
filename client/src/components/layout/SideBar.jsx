@@ -18,7 +18,7 @@ const SideBar = ({ setLogoutModal }) => {
   const { user } = useContext(UserContext);
   return (
     <>
-      <div className={`${styles.sidebar} bg-black`}>
+      <div className={`${styles.sidebar}  bg-black`}>
         <div className={styles.sidebar_top}>
           <div className={styles.logo}>
             <svg
@@ -61,6 +61,7 @@ const SideBar = ({ setLogoutModal }) => {
             optionName={"Profile"}
             Icon={PersonIcon}
             isActiveClass="isntactive"
+            onClick={onclick}
           />
           <SidebarOptions
             optionName={"More"}
@@ -79,8 +80,8 @@ const SideBar = ({ setLogoutModal }) => {
               <Avatar src="/src/assets/profile.jpg" />
             </div>
             <div className={styles.user_name}>
-              <h3 className="name">{user.name}</h3>
-              <h4 className={styles.user_name}>@{user.username}</h4>
+              <h3 className="name">{user && user.name}</h3>
+              <h4 className={styles.user_name}>@{user && user.username}</h4>
             </div>
           </div>
           <MoreHorizIcon className={styles.more_icon} />

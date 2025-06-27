@@ -11,6 +11,8 @@ const UserContextProvider = ({ children }) => {
   let [user, setUser] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   // Singup logic starts
   const [isloading, setIsLoading] = useState(false); //temp loading
   const [signupDbMessage, setSignupDbMessage] = useState({
@@ -102,7 +104,7 @@ const UserContextProvider = ({ children }) => {
     };
 
     let submitted = axios
-      .post("http://localhost:3001/signup", userData)
+      .post(`${API_URL}/signup`, userData)
       .then((res) => {
         if (res.data.success) {
           setSignupDbMessage((prev) => ({
@@ -181,7 +183,7 @@ const UserContextProvider = ({ children }) => {
     };
 
     let loggedIn = axios
-      .post("http://localhost:3001/login", userData)
+      .post(`${API_URL}/login`, userData)
       .then((res) => {
         if (res.data.success) {
           setToken(res.data.data.token);
@@ -213,7 +215,7 @@ const UserContextProvider = ({ children }) => {
       localStorage.setItem("token", token);
       setTokenLoading(false);
       axios
-        .get("http://localhost:3001/get-user-details", {
+        .get(`${API_URL}/get-user-details`, {
           headers: {
             Authorization: token,
           },
@@ -225,7 +227,7 @@ const UserContextProvider = ({ children }) => {
       if (localToken) {
         setToken(localToken);
         axios
-          .get("http://localhost:3001/get-user-details", {
+          .get(`${API_URL}/get-user-details`, {
             headers: {
               Authorization: token,
             },
