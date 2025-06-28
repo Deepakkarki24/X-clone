@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 
 export let UserContext = createContext();
 
@@ -11,7 +11,7 @@ const UserContextProvider = ({ children }) => {
   let [user, setUser] = useState("");
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  // const API_URL = import.meta.env.VITE_API_URL;
 
   // Singup logic starts
   const [isloading, setIsLoading] = useState(false); //temp loading
@@ -103,8 +103,8 @@ const UserContextProvider = ({ children }) => {
       password: passwordVal,
     };
 
-    let submitted = axios
-      .post(`${API_URL}/signup`, userData)
+    let submitted = api
+      .post("/signup", userData)
       .then((res) => {
         if (res.data.success) {
           setSignupDbMessage((prev) => ({
@@ -182,8 +182,8 @@ const UserContextProvider = ({ children }) => {
       password: userPassword,
     };
 
-    let loggedIn = axios
-      .post(`${API_URL}/login`, userData)
+    let loggedIn = api
+      .post("/login", userData)
       .then((res) => {
         if (res.data.success) {
           setToken(res.data.data.token);
@@ -214,8 +214,8 @@ const UserContextProvider = ({ children }) => {
     if (token) {
       localStorage.setItem("token", token);
       setTokenLoading(false);
-      axios
-        .get(`${API_URL}/get-user-details`, {
+      api
+        .get("/get-user-details", {
           headers: {
             Authorization: token,
           },
@@ -226,8 +226,8 @@ const UserContextProvider = ({ children }) => {
       const localToken = localStorage.getItem("token");
       if (localToken) {
         setToken(localToken);
-        axios
-          .get(`${API_URL}/get-user-details`, {
+        api
+          .get("/get-user-details", {
             headers: {
               Authorization: token,
             },

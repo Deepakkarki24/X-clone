@@ -35,39 +35,23 @@ const SideBar = ({ setLogoutModal }) => {
           <SidebarOptions
             optionName={"Home"}
             Icon={HomeIcon}
-            isActiveClass="isActive"
+            routePath={"/dashboard/feed"}
           />
-          <SidebarOptions
-            optionName={"Explore"}
-            Icon={SearcIcon}
-            isActiveClass="isntactive"
-          />
+          <SidebarOptions optionName={"Explore"} Icon={SearcIcon} />
           <SidebarOptions
             optionName={"Notifications"}
             Icon={NotificationsNoneIcon}
-            isActiveClass="isntactive"
           />
-          <SidebarOptions
-            optionName={"Messages"}
-            Icon={MailOutlineIcon}
-            isActiveClass="isntactive"
-          />
-          <SidebarOptions
-            optionName={"Lists"}
-            Icon={ChecklistIcon}
-            isActiveClass="isntactive"
-          />
-          <SidebarOptions
-            optionName={"Profile"}
-            Icon={PersonIcon}
-            isActiveClass="isntactive"
-            onClick={onclick}
-          />
-          <SidebarOptions
-            optionName={"More"}
-            Icon={MoreHorizIcon}
-            isActiveClass="isntactive"
-          />
+          <SidebarOptions optionName={"Messages"} Icon={MailOutlineIcon} />
+          <SidebarOptions optionName={"Lists"} Icon={ChecklistIcon} />
+          {user?.username && (
+            <SidebarOptions
+              optionName={"Profile"}
+              Icon={PersonIcon}
+              routePath={`/dashboard/profile/${user && user.username}`}
+            />
+          )}
+          <SidebarOptions optionName={"More"} Icon={MoreHorizIcon} />
           {/* Sidebar Options component */}
           <div className="w-[90%]">
             <Button btnElement={"Post"} />

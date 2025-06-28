@@ -160,9 +160,6 @@ userRouter.delete("/logout", async (req, res) => {
 userRouter.get("/get-user-details", async (req, res) => {
   let token = req.headers.authorization;
 
-  let foundUser = await User.findOne({ token: token });
-
-  console.log(foundUser);
   if (!token) {
     return res.json({
       success: false,
@@ -170,14 +167,16 @@ userRouter.get("/get-user-details", async (req, res) => {
     });
   }
 
-  if (!foundUser) {
-    return res.json({
-      success: false,
-      message: "No user found or user logged out",
-    });
-  }
+  let foundUser = await User.findOne({ token: token });
 
   try {
+    if (!foundUser) {
+      return res.json({
+        success: false,
+        message: "No user found or user logged out",
+      });
+    }
+
     if (foundUser) {
       return res.json({
         success: true,

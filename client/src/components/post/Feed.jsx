@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import TweetBox from "./TweetBox";
 import FollowingFeed from "./FollowingFeed";
 import { TweetContext } from "../../context/TweetContext";
-import PostBuffer from "../PostBuffer";
+import ContentBuffer from "../ContentBuffer";
 import { useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 
@@ -81,7 +81,7 @@ function Feed() {
         </div>
 
         <TweetBox />
-        {postLoading && <PostBuffer />}
+        {postLoading && <ContentBuffer />}
         {isActiveFollowing ? (
           <FollowingFeed />
         ) : (

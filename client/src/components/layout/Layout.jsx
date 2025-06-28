@@ -1,12 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import SideBar from "./SideBar";
-import Feed from "../post/Feed";
 import SidebarRight from "./SidebarRight";
 import { UserContext } from "../../context/UserContext";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import Logout from "../auth/Logout";
-import ProfilePage from "../../pages/ProfilePage";
 
 const Layout = () => {
   let { token, tokenLoading } = useContext(UserContext);

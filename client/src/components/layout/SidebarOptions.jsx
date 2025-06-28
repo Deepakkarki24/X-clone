@@ -1,23 +1,20 @@
 import React from "react";
 import styles from "./SidebarOptions.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-function SidebarOptions({ optionName, Icon, isActiveClass, onClick }) {
+const SidebarOptions = ({ optionName, Icon, routePath }) => {
   return (
-    <div
-      onClick={() => navigate("/profile")}
-      className={styles.side_nav_item_box}
-    >
+    <div className={styles.side_nav_item_box}>
       <div className={styles.side_nav_links}>
-        <Link className={styles.side_nav_link}>
-          <div className={`${styles.inner_li} ${styles.isActiveClass}`}>
+        <NavLink to={routePath} className={`${styles.side_nav_link}`}>
+          <div className={`${styles.inner_li} ${styles.list_name}`}>
             <Icon className={styles.list_icon} />
-            <span className={styles.list_name}>{optionName}</span>
+            <span>{optionName}</span>
           </div>
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
-}
+};
 
 export default SidebarOptions;

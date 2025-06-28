@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import img from "../assets/post.jpg";
-import axios from "axios";
+import api from "../services/api";
+
 export let TweetContext = createContext();
 
 const TweetContextProvider = ({ children }) => {
@@ -20,7 +21,7 @@ const TweetContextProvider = ({ children }) => {
   const [tweet, setTweet] = useState(() => initialState);
   const [postLoading, setPostLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  // const API_URL = import.meta.env.VITE_API_URL;
 
   // all tweets list
   const [tweets, setTweets] = useState([]);
@@ -52,8 +53,8 @@ const TweetContextProvider = ({ children }) => {
       formData.append("tweetMedia", tweetMedia);
     }
 
-    axios
-      .post(`${API_URL}/add-tweet`, formData, {
+    api
+      .post("/add-tweet", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -70,7 +71,7 @@ const TweetContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    axios.get(`${API_URL}/get-posts`).then((res, req) => {
+    api.get("/get-posts").then((res, req) => {
       setTweets([...res.data.data, initialTweet]);
 
       setAddedPost(false);
