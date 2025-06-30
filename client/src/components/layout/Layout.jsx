@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import SideBar from "./SideBar";
 import SidebarRight from "./SidebarRight";
 import { UserContext } from "../../context/UserContext";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import Logout from "../auth/Logout";
 

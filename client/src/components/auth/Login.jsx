@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import LoadingPage from "../LoadingPage";
 import { UserContext } from "../../context/UserContext";
