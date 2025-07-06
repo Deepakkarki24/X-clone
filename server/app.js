@@ -13,7 +13,7 @@ const port = 3001;
 // Give the permission to frontend to run the bakcend port into the frontend
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true,
   })
 );
