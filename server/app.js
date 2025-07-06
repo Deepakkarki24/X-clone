@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // Development
-      "https://x-clone-frontend-xi.vercel.app/", // Production
+      "https://x-clone-frontend-xi.vercel.app", // Production
     ],
     credentials: true,
   })
