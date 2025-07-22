@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import styles from "./SideBar.module.css";
+import profileImg from "../../assets/profile.jpg";
 
 import SidebarOptions from "../layout/SidebarOptions";
 
@@ -61,7 +62,7 @@ const SideBar = ({ setLogoutModal }) => {
         <div onClick={() => setLogoutModal(true)} className={styles.user}>
           <div className={styles.user_profilebox}>
             <div className="user_img w-[45px] ">
-              <Avatar src="/src/assets/profile.jpg" />
+              <Avatar src={profileImg} />
             </div>
             <div className={styles.user_name}>
               <h3 className="name">{user && user.name}</h3>

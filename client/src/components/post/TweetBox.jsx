@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import styles from "./Feed.module.css";
 import Avatar from "@mui/material/Avatar";
+import profileImg from "../../assets/profile.jpg";
 import Button from "../ButtonB&W";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
@@ -15,7 +16,7 @@ const TweetBox = () => {
         <form onSubmit={sendTweet}>
           <div className={styles.user_input}>
             <div className="user_img w-[45px] ">
-              <Avatar src="/src/assets/profile.jpg" />
+              <Avatar src={profileImg} />
             </div>
 
             <input
