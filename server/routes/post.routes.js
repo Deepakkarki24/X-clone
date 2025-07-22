@@ -10,10 +10,8 @@ const upload = multer({ storage });
 
 postRouter.post("/add-tweet", upload.single("tweetMedia"), async (req, res) => {
   let { tweetText } = req.body;
-  console.log(req.body);
 
   let postId = uuidv4();
-  // let userId = uuidv4();
 
   try {
     let newPost = new Post({
