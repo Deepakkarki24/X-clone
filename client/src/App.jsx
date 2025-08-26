@@ -8,6 +8,7 @@ import ErrorPage from "./pages/ErrorPage";
 import ProfilePage from "./pages/ProfilePage";
 import Feed from "./components/post/Feed";
 import EducationalDisclaimer from "./pages/EducationalDisclaimer";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
@@ -17,7 +18,14 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Layout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
           <Route path="feed" element={<Feed />} />
           <Route path="profile/:username" element={<ProfilePage />} />
         </Route>

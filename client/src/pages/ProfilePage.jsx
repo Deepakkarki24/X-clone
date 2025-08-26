@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
 import ContentBuffer from "../components/ContentBuffer";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import styles from "../components/post/Feed.module.css";
 
 import coverImg from "../assets/anime1.jpg";
-import profileImg from "../assets/profile.jpg";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import { TweetContext } from "../context/TweetContext";
@@ -15,10 +13,8 @@ import Post from "../components/post/Post";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [profileData, setProfileData] = useState(null);
-  const { token, user } = useContext(UserContext);
-  const { tweets } = useContext(TweetContext);
-
+  const { user } = useContext(UserContext);
+  const { userTweets } = useContext(TweetContext);
   let initialTabs = [
     { tabname: "posts", isActive: true, posts: true },
     { tabname: "replies", isActive: false, replies: false },
@@ -28,6 +24,7 @@ const ProfilePage = () => {
   ];
 
   const [tabs, setTabs] = useState(() => initialTabs);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleTabs = (i) => {
     setTabs((prevTabs) =>
@@ -39,26 +36,9 @@ const ProfilePage = () => {
     );
   };
 
-  useEffect(() => {
-    if (token) {
-      api
-        .get(`/get-user-details`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((res) => {
-          setTimeout(() => {
-            setProfileData(res.data.data);
-          }, 100);
-        })
-        .catch((err) => err);
-    }
-  }, [token]);
-
   return (
     <section className="profile_container bg-black relative w-full border-[1px] border-[var(--border-line-color)]">
-      {profileData ? (
+      {user ? (
         <>
           <div className="upr_sec relative w-full">
             <div className="head flex gap-1 py-1 px-1">
@@ -69,7 +49,7 @@ const ProfilePage = () => {
                 <KeyboardBackspaceIcon fontSize="small" />
               </div>
               <div className="profile_name text-[18px] text-white font-semibold">
-                <span>{profileData.name}</span>
+                <span>{user.name}</span>
               </div>
             </div>
             <div className="img_container relative">
@@ -82,8 +62,8 @@ const ProfilePage = () => {
               </div>
               <div className="profile_img relative flex justify-end">
                 <img
-                  className="w-[22%] left-4 absolute -top-1/1 rounded-full border-2 border-black"
-                  src={profileImg}
+                  className="w-[100px] h-[100px] object-cover object-center left-4 absolute -top-1/1 rounded-full border-2 border-black"
+                  src={`${API_URL}public/images/${user.profileImg}`}
                   alt="image"
                 />
                 <span className="edit_bx p-3 text-white font-semibold text-[15px]">
@@ -96,10 +76,10 @@ const ProfilePage = () => {
             <div className="userInfo relative text-[var(--primary-color-two)] w-full px-4 py-1">
               <div className="info_bx text-[var(--primary-color-two)] leading-[normal]">
                 <div className="name text-[20px] font-bold">
-                  {profileData && profileData.name}
+                  {user && user.name}
                 </div>
                 <span className="username text-[14px] text-[var(--fade-text-color)]">
-                  @{profileData && profileData.username}
+                  @{user && user.username}
                 </span>
               </div>
               <div className="bio mt-2 text-[14px]">
@@ -158,11 +138,11 @@ const ProfilePage = () => {
           </div>
           {
             <div className="posts">
-              {tweets ? (
-                tweets.map((tweet, index) => (
+              {userTweets ? (
+                userTweets.map((tweet, index) => (
                   <Post
                     key={index}
-                    avatar={profileImg}
+                    avatar={`${API_URL}public/images/${user.profileImg}`}
                     displayName={user && user.name}
                     verified="verified"
                     userName={user && user.username}

@@ -6,12 +6,12 @@ export let UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
   // user logic variables
-  let [token, setToken] = useState();
-  let [tokenLoading, setTokenLoading] = useState(true); //token loading
-  let [user, setUser] = useState("");
+  let [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   // const API_URL = import.meta.env.VITE_API_URL;
+
+  const [authLoading, setAuthLoading] = useState(true);
 
   // Singup logic starts
   const [isloading, setIsLoading] = useState(false); //temp loading
@@ -104,18 +104,19 @@ const UserContextProvider = ({ children }) => {
     };
 
     let submitted = api
-      .post("/signup", userData)
+      .post("/signup", userData, { withCredentials: true })
       .then((res) => {
         if (res.data.success) {
           setSignupDbMessage((prev) => ({
             err: { message: "" },
             success: { message: res.data.message },
           }));
+          setUser(res.data.data);
           setIsLoading(true);
           setTimeout(() => {
-            navigate("/");
+            navigate("/dashboard/feed");
             setIsLoading(false);
-          }, 2000);
+          }, 1000);
         } else {
           setSignupDbMessage((prev) => ({
             ...prev,
@@ -183,13 +184,13 @@ const UserContextProvider = ({ children }) => {
     };
 
     let loggedIn = api
-      .post("/login", userData)
+      .post("/login", userData, { withCredentials: true })
       .then((res) => {
         if (res.data.success) {
-          setToken(res.data.data.token);
           setLoginDbMessage((prev) => ({
             success: { message: res.data.message },
           }));
+          setUser(res.data.data);
           setIsLoading(true);
           setTimeout(() => {
             navigate("/dashboard/feed");
@@ -210,42 +211,37 @@ const UserContextProvider = ({ children }) => {
   };
   // login logic ends
 
+  //logout starts
+  const handleLogout = () => {
+    api
+      .get("/logout", { withCredentials: true })
+      .then((res) => {
+        if (res.data.success) {
+          setUser(null);
+          navigate("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  //logout ends
+
+  //fetch user data starts
   useEffect(() => {
-    if (token) {
-      localStorage.setItem("token", token);
-      setTokenLoading(false);
-      api
-        .get("/get-user-details", {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((res) => setUser(res.data.data))
-        .catch((err) => err);
-    } else {
-      const localToken = localStorage.getItem("token");
-      if (localToken) {
-        setToken(localToken);
-        api
-          .get("/get-user-details", {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((res) => setUser(res.data.data))
-          .catch((err) => err);
-      } else {
-        setTokenLoading(false);
-      }
-    }
-  }, [token]);
+    api
+      .get("/me", { withCredentials: true })
+      .then((res) => {
+        if (res.data.success) setUser(res.data.data);
+        else setUser(null);
+      })
+      .catch(() => setUser(null))
+      .finally(() => setAuthLoading(false));
+  }, []);
+
+  //fetch user data ends
 
   return (
     <UserContext.Provider
       value={{
-        token,
-        setToken,
-        tokenLoading,
         handleSignupFormSubmit,
         userDetails,
         isloading,
@@ -256,6 +252,8 @@ const UserContextProvider = ({ children }) => {
         loginErrors,
         loginDbMessage,
         user,
+        authLoading,
+        handleLogout,
       }}
     >
       {children}

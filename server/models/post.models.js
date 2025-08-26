@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
   {
-    postId: {
-      type: String,
-      unique: true,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
     tweetText: {
       type: String,
@@ -15,10 +15,14 @@ const postSchema = new mongoose.Schema(
       },
       public_id: { type: String },
     },
+    likes: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model("post", postSchema);
 
 export default Post;

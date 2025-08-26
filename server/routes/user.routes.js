@@ -1,10 +1,15 @@
 import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import User from "../models/user.models.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+import upload from "../config/multer.config.js";
+
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const userRouter = express.Router();
-
-import User from "../models/user.models.js";
-import { v4 as uuidv4 } from "uuid";
-
 userRouter.post("/signup", async (req, res) => {
   let { name, username, email, password } = req.body;
 
@@ -20,16 +25,14 @@ userRouter.post("/signup", async (req, res) => {
   if (password.length < 3) {
     return res.json({
       success: false,
-      message: "Password must be atleast 8 letters.",
+      message: "Password must be atleast greater than 3 letters.",
     });
   }
 
   //Validation..
 
-  // process to save the data into mongo db
-
   try {
-    const userFound = await User.findOne({ email: email }); //checks that this email has already registerd or not.
+    const userFound = await User.findOne({ email });
 
     if (userFound) {
       return res.json({
@@ -38,27 +41,44 @@ userRouter.post("/signup", async (req, res) => {
       });
     }
 
+    let salt = await bcrypt.genSalt(10);
+    let hashedPwd = await bcrypt.hash(password, salt);
+
     //create new user with the User schema object from usermodels.
-    let newUser = new User({
-      name: name,
-      username: username,
-      email: email,
-      password: password,
-    });
+    let newUser = await new User({
+      name,
+      username,
+      email,
+      password: hashedPwd,
+    }).save();
 
-    let savedUser = await newUser.save(); //save the user data into mongo db and save the value into the var.
-
-    if (!savedUser) {
+    if (!newUser) {
       return res.json({
         success: false,
-        message: "Error while saving user Data!",
+        message: "Error while singup",
       });
     }
 
-    res.json({
+    const token = jwt.sign(
+      { id: newUser._id, email },
+      process.env.JWTSECRETKEY,
+      {
+        expiresIn: process.env.JWTEXPIRESIN,
+      }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    const { password: pwd, ...userWithoutPwd } = newUser._doc;
+
+    return res.json({
       success: true,
       message: "User data saved successfully!",
-      data: savedUser,
+      data: userWithoutPwd,
     });
   } catch (err) {
     res.json({
@@ -80,74 +100,63 @@ userRouter.post("/login", async (req, res) => {
     });
   }
 
-  let foundUser = await User.findOne({ email: email });
-
-  if (!foundUser) {
-    return res.json({
-      success: false,
-      message: "User not found!",
-    });
-  }
-
-  if (foundUser.password != password) {
-    return res.json({
-      success: false,
-      message: "Incorrect password",
-    });
-  }
-
-  const token = uuidv4();
-  foundUser.token = token;
-
   try {
-    const updatedUser = await foundUser.save();
+    let foundUser = await User.findOne({ email });
+
+    if (!foundUser) {
+      return res.json({
+        success: false,
+        message: "Email or password doesn't match!",
+      });
+    }
+
+    let compare = await bcrypt.compare(password, foundUser.password);
+
+    if (!compare) {
+      return res.json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
+
+    const token = jwt.sign(
+      { id: foundUser._id, email },
+      process.env.JWTSECRETKEY,
+      {
+        expiresIn: process.env.JWTEXPIRESIN,
+      }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    const { password: pwd, ...userWithoutPwd } = foundUser._doc;
 
     return res.json({
       success: true,
       message: "Successfully Logged IN!",
-      token: token,
-      data: updatedUser,
+      data: userWithoutPwd,
     });
-  } catch (error) {
+  } catch (err) {
     return res.json({
       success: false,
-      message: "Error while saving user",
+      message: err.message,
     });
   }
 });
 
 // Logout
 
-userRouter.delete("/logout", async (req, res) => {
-  let token = req.headers.authorization;
-  let foundUser = await User.findOne({ token: token });
-
-  if (!token) {
-    return res.json({
-      success: false,
-      message: "No token found or not LoggedIn!",
-    });
-  }
-
+userRouter.get("/logout", authMiddleware, async (req, res) => {
   try {
-    // find user by token
-
-    if (!foundUser) {
-      return res.json({
-        success: false,
-        message: "Invailid token or user already logged out",
-      });
-    }
-
-    // clear token to log the user out
-
-    foundUser.token = null;
-    let updatedUser = await foundUser.save();
+    res.clearCookie("token");
 
     return res.json({
       success: true,
       message: "Succesfully Logged out",
-      data: updatedUser,
     });
   } catch (err) {
     return res.json({
@@ -157,43 +166,38 @@ userRouter.delete("/logout", async (req, res) => {
   }
 });
 
-userRouter.get("/get-user-details", async (req, res) => {
-  let token = req.headers.authorization;
-
-  if (!token) {
-    return res.json({
-      success: false,
-      message: "No token found or not logged In!!",
-    });
-  }
-
-  let foundUser = await User.findOne({ token: token });
+userRouter.get("/me", authMiddleware, async (req, res) => {
+  let userFound = await User.findOne({ email: req.user.email });
 
   try {
-    if (!foundUser) {
+    if (!userFound) {
       return res.json({
         success: false,
         message: "No user found or user logged out",
       });
     }
 
-    if (foundUser) {
-      return res.json({
-        success: true,
-        message: "User found!",
-        data: {
-          name: foundUser.name,
-          username: foundUser.username,
-          email: foundUser.email,
-        },
-      });
-    }
+    let { password: pwd, ...userWithoutPwd } = userFound._doc;
+
+    return res.json({
+      success: true,
+      message: "User found!",
+      data: userWithoutPwd,
+    });
   } catch (err) {
     return res.json({
       success: false,
       message: err.message,
     });
   }
+});
+
+userRouter.post("/upload", upload.single("profilePic"), (req, res) => {
+  res.json({
+    success: true,
+    message: "Image uploaded successfully!",
+    filePath: `/uploads/${req.file.filename}`, // save this path in DB
+  });
 });
 
 export default userRouter;

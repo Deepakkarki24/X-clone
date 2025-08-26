@@ -1,6 +1,5 @@
 import styles from "./Feed.module.css";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import profileImg from "../../assets/profile.jpg";
 
 import { useContext, useState } from "react";
 import Post from "./Post";
@@ -21,20 +20,22 @@ function Feed() {
 
   const { tabname, isActiveFollowing } = isActiveTab;
 
-  const { tweets, setPostLoading, postLoading } = useContext(TweetContext);
+  const { globalTweets, setPostLoading, postLoading } =
+    useContext(TweetContext);
 
   const { user } = useContext(UserContext);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     setPostLoading(false);
-  }, [tweets]);
+  }, [globalTweets]);
 
   return (
     <>
       <div className={`${styles.feed} bg-black `}>
         <div className={styles.mob_top_nav}>
           <div className={styles.flex_top}>
-            <Avatar src="/src/assets/profile.jpg" />
+            <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
             <div className={styles.logo}>
               <svg
                 viewBox="0 0 24 24"
@@ -80,18 +81,18 @@ function Feed() {
           </div>
         </div>
 
-        <TweetBox />
+        <TweetBox API_URL={API_URL} user={user} />
         {postLoading && <ContentBuffer />}
         {isActiveFollowing ? (
           <FollowingFeed />
         ) : (
-          tweets.map((tweet, index) => (
+          globalTweets.map((tweet, index) => (
             <Post
               key={index}
-              avatar={profileImg}
-              displayName={user && user.name}
+              avatar={`${API_URL}public/images/${user.profileImg}`}
+              displayName={tweet.userId && tweet.userId.name}
               verified="verified"
-              userName={user && user.username}
+              userName={tweet.userId && tweet.userId.username}
               captionText={tweet.tweetText}
               media={tweet.tweetMedia.url}
             />

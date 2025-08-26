@@ -22,11 +22,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  token: {
-    type: String,
-  },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "post",
+    },
+  ],
+  profileImg: { type: String, default: "default.jpg" },
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 export default User;

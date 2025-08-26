@@ -10,13 +10,6 @@ const TweetContextProvider = ({ children }) => {
     tweetMedia: null,
   };
 
-  let initialTweet = {
-    tweetText: " Testingg...🤺",
-    tweetMedia: {
-      url: img,
-    },
-  };
-
   const [addedPost, setAddedPost] = useState(false);
   const [tweet, setTweet] = useState(() => initialState);
   const [postLoading, setPostLoading] = useState(false);
@@ -24,7 +17,8 @@ const TweetContextProvider = ({ children }) => {
   // const API_URL = import.meta.env.VITE_API_URL;
 
   // all tweets list
-  const [tweets, setTweets] = useState([]);
+  const [globalTweets, setGlobalTweets] = useState([]);
+  const [userTweets, setUserTweets] = useState([]);
 
   const handleChange = (e) => {
     let { name, value, files } = e.target;
@@ -54,11 +48,16 @@ const TweetContextProvider = ({ children }) => {
     }
 
     api
-      .post("/add-tweet", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        "/add-tweet",
+        formData,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         if (res.data.success) {
           setAddedPost(true);
@@ -71,12 +70,18 @@ const TweetContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    api.get("/get-posts").then((res, req) => {
-      setTweets([...res.data.data, initialTweet]);
-
+    api.get("/get-all-posts", { withCredentials: true }).then((res, req) => {
+      setGlobalTweets([...res.data.data]);
       setAddedPost(false);
     });
   }, [addedPost]);
+
+  useEffect(() => {
+    api.get("/get-user-posts", { withCredentials: true }).then((res, req) => {
+      setUserTweets([...res.data.data]);
+    });
+  }, [addedPost]);
+
   return (
     <TweetContext.Provider
       value={{
@@ -84,9 +89,10 @@ const TweetContextProvider = ({ children }) => {
         tweetText,
         tweetMedia,
         sendTweet,
-        tweets,
+        globalTweets,
         setPostLoading,
         postLoading,
+        userTweets,
       }}
     >
       {children}

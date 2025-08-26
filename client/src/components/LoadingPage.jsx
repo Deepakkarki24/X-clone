@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingPage = ({ message, page }) => {
+const LoadingPage = () => {
   return (
     <div className="fixed inset-0 z-50 bg-black text-white flex items-center justify-center flex-col">
       <div className="animate-pulse">

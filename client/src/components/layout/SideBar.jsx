@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import styles from "./SideBar.module.css";
-import profileImg from "../../assets/profile.jpg";
 
 import SidebarOptions from "../layout/SidebarOptions";
 
@@ -13,10 +12,9 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 import PersonIcon from "@mui/icons-material/Person";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "../ButtonB&W";
-import { UserContext } from "../../context/UserContext";
 
-const SideBar = ({ setLogoutModal }) => {
-  const { user } = useContext(UserContext);
+const SideBar = ({ setLogoutModal, user }) => {
+  const API_URL = import.meta.env.VITE_API_URL;
   return (
     <>
       <div className={`${styles.sidebar}  bg-black`}>
@@ -62,7 +60,7 @@ const SideBar = ({ setLogoutModal }) => {
         <div onClick={() => setLogoutModal(true)} className={styles.user}>
           <div className={styles.user_profilebox}>
             <div className="user_img w-[45px] ">
-              <Avatar src={profileImg} />
+              <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
             </div>
             <div className={styles.user_name}>
               <h3 className="name">{user && user.name}</h3>
