@@ -15,9 +15,7 @@ const port = 3001;
 // Give the permission to frontend to run the bakcend port into the frontend
 app.use(
   cors({
-    origin: "https://x-clone-frontend-n5ba.onrender.com", // frontend URL
-    // origin: "http://localhost:5173",
-    credentials: true,
+    origin: "*", // frontend URL
   })
 );
 
