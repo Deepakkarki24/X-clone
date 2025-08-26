@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import img from "../assets/post.jpg";
+import { createContext, useContext, useEffect, useState } from "react";
 import api from "../services/api";
+import { UserContext } from "../context/UserContext";
 
 export let TweetContext = createContext();
 
@@ -19,6 +19,8 @@ const TweetContextProvider = ({ children }) => {
   // all tweets list
   const [globalTweets, setGlobalTweets] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
+
+  const { user } = useContext(UserContext);
 
   const handleChange = (e) => {
     let { name, value, files } = e.target;
@@ -70,17 +72,20 @@ const TweetContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    api.get("/get-all-posts", { withCredentials: true }).then((res, req) => {
-      setGlobalTweets([...res.data.data]);
-      setAddedPost(false);
-    });
-  }, [addedPost]);
+    user &&
+      api.get("/get-all-posts", { withCredentials: true }).then((res, req) => {
+        setGlobalTweets([...res.data.data]);
+        setAddedPost(false);
+        setPostLoading(false);
+      });
+  }, [addedPost, user]);
 
   useEffect(() => {
-    api.get("/get-user-posts", { withCredentials: true }).then((res, req) => {
-      setUserTweets([...res.data.data]);
-    });
-  }, [addedPost]);
+    user &&
+      api.get("/get-user-posts", { withCredentials: true }).then((res, req) => {
+        setUserTweets([...res.data.data]);
+      });
+  }, [addedPost, user]);
 
   return (
     <TweetContext.Provider
