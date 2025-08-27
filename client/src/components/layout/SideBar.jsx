@@ -15,6 +15,7 @@ import Button from "../ButtonB&W";
 
 const SideBar = ({ setLogoutModal, user }) => {
   const API_URL = import.meta.env.VITE_API_URL;
+
   return (
     <>
       <div className={`${styles.sidebar}  bg-black`}>
@@ -60,7 +61,11 @@ const SideBar = ({ setLogoutModal, user }) => {
         <div onClick={() => setLogoutModal(true)} className={styles.user}>
           <div className={styles.user_profilebox}>
             <div className="user_img w-[45px] ">
-              <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
+              <Avatar
+                src={`${API_URL.replace(/\/$/, "")}/public/images/${
+                  user.profileImg
+                }`}
+              />
             </div>
             <div className={styles.user_name}>
               <h3 className="name">{user && user.name}</h3>

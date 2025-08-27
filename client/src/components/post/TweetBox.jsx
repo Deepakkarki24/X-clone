@@ -15,7 +15,11 @@ const TweetBox = ({ user, API_URL }) => {
         <form onSubmit={sendTweet}>
           <div className={styles.user_input}>
             <div className="user_img w-[45px] ">
-              <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
+              <Avatar
+                src={`${API_URL.replace(/\/$/, "")}/public/images/${
+                  user.profileImg
+                }`}
+              />
             </div>
 
             <textarea

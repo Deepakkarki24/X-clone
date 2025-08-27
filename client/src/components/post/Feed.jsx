@@ -89,7 +89,9 @@ function Feed() {
           globalTweets.map((tweet, index) => (
             <Post
               key={index}
-              avatar={`${API_URL}public/images/${user.profileImg}`}
+              avatar={`${API_URL.replace(/\/$/, "")}/public/images/${
+                user.profileImg
+              }`}
               displayName={tweet.userId && tweet.userId.name}
               verified="verified"
               userName={tweet.userId && tweet.userId.username}

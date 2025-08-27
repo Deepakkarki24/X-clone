@@ -63,7 +63,9 @@ const ProfilePage = () => {
               <div className="profile_img relative flex justify-end">
                 <img
                   className="w-[100px] h-[100px] object-cover object-center left-4 absolute -top-1/1 rounded-full border-2 border-black"
-                  src={`${API_URL}public/images/${user.profileImg}`}
+                  src={`${API_URL.replace(/\/$/, "")}/public/images/${
+                    user.profileImg
+                  }`}
                   alt="image"
                 />
                 <span className="edit_bx p-3 text-white font-semibold text-[15px]">
