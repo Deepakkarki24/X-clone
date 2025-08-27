@@ -144,7 +144,9 @@ const ProfilePage = () => {
                 userTweets.map((tweet, index) => (
                   <Post
                     key={index}
-                    avatar={`${API_URL}public/images/${user.profileImg}`}
+                    avatar={`${API_URL.replace(/\/$/, "")}/public/images/${
+                      user.profileImg
+                    }`}
                     displayName={user && user.name}
                     verified="verified"
                     userName={user && user.username}
