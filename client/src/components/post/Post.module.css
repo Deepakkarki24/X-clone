@@ -25,6 +25,7 @@
     position: relative;
     border-bottom: 1px solid var(--border-line-color);
     overflow: hidden;
+    padding: 10px;
 }
 
 
