@@ -55,7 +55,7 @@ userRouter.post("/signup", async (req, res) => {
     if (!newUser) {
       return res.json({
         success: false,
-        message: "Error while singup",
+        message: "Error while signing up",
       });
     }
 
@@ -70,7 +70,7 @@ userRouter.post("/signup", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     const { password: pwd, ...userWithoutPwd } = newUser._doc;
@@ -130,7 +130,7 @@ userRouter.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     const { password: pwd, ...userWithoutPwd } = foundUser._doc;
