@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "../ButtonB&W";
-import styles from "../auth/Logout.module.css";
 import { FaXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -11,7 +10,7 @@ const Logout = ({ setLogoutModal }) => {
   const { handleLogout } = useContext(UserContext);
   return (
     <div className="logout_modal relative">
-      <div className={styles.overlay}>
+      <div className="flex justify-center items-center text-white h-[300px] rounded-2xl fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-2/6 bg-black">
         <div className="logout_inner">
           <FaXmark
             onClick={() => setLogoutModal(false)}

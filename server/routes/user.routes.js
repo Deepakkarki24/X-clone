@@ -192,12 +192,56 @@ userRouter.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
-userRouter.post("/upload", upload.single("profilePic"), (req, res) => {
-  res.json({
-    success: true,
-    message: "Image uploaded successfully!",
-    filePath: `/uploads/${req.file.filename}`, // save this path in DB
-  });
-});
+userRouter.post(
+  "/edit-profile",
+  authMiddleware,
+  upload.fields([
+    { name: "profile_image", maxCount: 1 },
+    { name: "cover_image", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const foundUser = await User.findOne({ email: req.user.email });
+
+      if (!foundUser) {
+        return res.json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      let { name, username, bio, location } = req.body;
+
+      if (req.files["profile_image"]) {
+        foundUser.profileImg = req.files["profile_image"][0].filename;
+      }
+
+      if (req.files["cover_image"]) {
+        foundUser.coverImg = req.files["cover_image"][0].filename;
+      }
+
+      if (name) foundUser.name = name;
+
+      if (username) foundUser.username = username;
+
+      if (bio) foundUser.bio = bio;
+
+      if (location) foundUser.location = location;
+
+      await foundUser.save();
+
+      return res.json({
+        success: true,
+        message: "Profile updated successfully",
+        data: foundUser,
+      });
+    } catch (err) {
+      return res.json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
 
 export default userRouter;

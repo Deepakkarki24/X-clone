@@ -23,7 +23,7 @@ const TweetBox = ({ user, API_URL }) => {
             </div>
 
             <textarea
-              className={`${styles.form_control} resize-none`}
+              className={`${styles.form_control} p-2 resize-none`}
               name="tweetText"
               value={tweetText}
               onChange={handleChange}

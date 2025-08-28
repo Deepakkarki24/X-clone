@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from "path";
+import crypto from "crypto";
 
 // configure multer
 const storage = multer.diskStorage({
@@ -7,10 +8,9 @@ const storage = multer.diskStorage({
     cb(null, "./public/images");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = crypto.randomBytes(12, function (err, name) {
-      const filename = name.toString("hex") + path.extname(file.originalname);
-      cb(null, filename);
-    });
+    const uniqueName =
+      crypto.randomBytes(12).toString("hex") + path.extname(file.originalname);
+    cb(null, uniqueName);
   },
 });
 

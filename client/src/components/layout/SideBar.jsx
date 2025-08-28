@@ -53,9 +53,6 @@ const SideBar = ({ setLogoutModal, user }) => {
           )}
           <SidebarOptions optionName={"More"} Icon={MoreHorizIcon} />
           {/* Sidebar Options component */}
-          <div className="w-[90%]">
-            <Button btnElement={"Post"} />
-          </div>
         </div>
 
         <div onClick={() => setLogoutModal(true)} className={styles.user}>

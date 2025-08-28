@@ -10,11 +10,14 @@ import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import { TweetContext } from "../context/TweetContext";
 import Post from "../components/post/Post";
+import Modal from "../components/Modal.jsx";
 
 const ProfilePage = () => {
+  const [modalState, setModalState] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const { userTweets } = useContext(TweetContext);
+
   let initialTabs = [
     { tabname: "posts", isActive: true, posts: true },
     { tabname: "replies", isActive: false, replies: false },
@@ -56,7 +59,9 @@ const ProfilePage = () => {
               <div className="cvr_img">
                 <img
                   className="h-48 w-full object-center object-cover"
-                  src={coverImg}
+                  src={`${API_URL.replace(/\/$/, "")}/public/images/${
+                    user.coverImg
+                  }`}
                   alt="image"
                 />
               </div>
@@ -69,7 +74,10 @@ const ProfilePage = () => {
                   alt="image"
                 />
                 <span className="edit_bx p-3 text-white font-semibold text-[15px]">
-                  <button className="cursor-pointer px-5 py-2 border-[1px] rounded-3xl border-amber-50">
+                  <button
+                    onClick={() => setModalState(true)}
+                    className="cursor-pointer px-5 py-2 border-[1px] rounded-3xl border-amber-50"
+                  >
                     Edit profile
                   </button>
                 </span>
@@ -84,16 +92,20 @@ const ProfilePage = () => {
                   @{user && user.username}
                 </span>
               </div>
-              <div className="bio mt-2 text-[14px]">
-                <span>This is my Bio...</span>
-              </div>
+              {user.bio && (
+                <div className="bio mt-2 text-[14px]">
+                  <span>{user && user.bio}</span>
+                </div>
+              )}
               <div className="user_prsnl_dets mt-2 text-[var(--fade-text-color)] text-[14px] flex gap-2">
-                <span className="location">
-                  <span>
-                    <PlaceOutlinedIcon />
-                  </span>{" "}
-                  New delhi, India
-                </span>
+                {user.location && (
+                  <span className="location">
+                    <span>
+                      <PlaceOutlinedIcon />
+                    </span>
+                    {user.location}
+                  </span>
+                )}
                 <span className="dob">
                   <span>
                     <CakeOutlinedIcon />
@@ -163,6 +175,8 @@ const ProfilePage = () => {
       ) : (
         <ContentBuffer />
       )}
+
+      {modalState && <Modal setModalState={setModalState} />}
     </section>
   );
 };

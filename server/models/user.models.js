@@ -28,7 +28,16 @@ const userSchema = new mongoose.Schema({
       ref: "post",
     },
   ],
-  profileImg: { type: String, default: "default.jpg" },
+  location: {
+    type: String,
+    default: null,
+  },
+  bio: {
+    type: String,
+    default: null,
+  },
+  profileImg: { type: String, default: "profile_default.jpg" },
+  coverImg: { type: String, default: "cover_default.jpg" },
 });
 
 const User = mongoose.model("user", userSchema);

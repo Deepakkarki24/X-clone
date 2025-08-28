@@ -9,6 +9,8 @@ const UserContextProvider = ({ children }) => {
   let [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  console.log(user);
+
   // const API_URL = import.meta.env.VITE_API_URL;
 
   const [authLoading, setAuthLoading] = useState(true);
@@ -252,6 +254,7 @@ const UserContextProvider = ({ children }) => {
         loginErrors,
         loginDbMessage,
         user,
+        setUser,
         authLoading,
         handleLogout,
       }}

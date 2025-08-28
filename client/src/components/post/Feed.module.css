@@ -64,7 +64,6 @@
     background-color: transparent;
     font-size: 20px;
     width: 100%;
-    text-indent: 10px;
     border: none;
     outline: none;
     color: var(--primary-color-two);
@@ -76,7 +75,7 @@
     justify-content: space-between;
     align-items: center;
     margin-left: 10%;
-    margin-top: 18px;
+    margin-top: 10px;
 }
 
 .icon_box {
