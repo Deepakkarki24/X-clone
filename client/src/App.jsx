@@ -10,6 +10,9 @@ import Feed from "./components/post/Feed";
 import EducationalDisclaimer from "./pages/EducationalDisclaimer";
 import PrivateRoute from "./components/PrivateRoute";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   return (
     <>
@@ -31,6 +34,13 @@ const App = () => {
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        pauseOnHover
+        // theme="colored"
+      />
     </>
   );
 };

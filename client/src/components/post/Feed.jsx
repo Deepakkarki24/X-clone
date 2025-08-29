@@ -90,7 +90,7 @@ function Feed() {
             <Post
               key={index}
               avatar={`${API_URL.replace(/\/$/, "")}/public/images/${
-                user.profileImg
+                tweet.userId.profileImg
               }`}
               displayName={tweet.userId && tweet.userId.name}
               verified="verified"

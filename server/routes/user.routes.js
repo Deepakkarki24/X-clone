@@ -77,7 +77,7 @@ userRouter.post("/signup", async (req, res) => {
 
     return res.json({
       success: true,
-      message: "User data saved successfully!",
+      message: "Account created succesfully!",
       data: userWithoutPwd,
     });
   } catch (err) {
@@ -137,7 +137,7 @@ userRouter.post("/login", async (req, res) => {
 
     return res.json({
       success: true,
-      message: "Successfully Logged IN!",
+      message: "Successfully Logged In!",
       data: userWithoutPwd,
     });
   } catch (err) {

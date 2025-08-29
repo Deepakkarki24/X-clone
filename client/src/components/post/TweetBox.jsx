@@ -41,13 +41,15 @@ const TweetBox = ({ user, API_URL }) => {
                     className={styles.fileIcon}
                   />
                   <small className={styles.tooltip}>Media</small>
-                  <input
-                    name="tweetMedia"
-                    type="file"
-                    accept="image/*"
-                    className={styles.support_inputbtn}
-                    onChange={handleChange}
-                  />
+                  <label className="absolute bottom-0 w-full h-full right-0 px-2 py-1 rounded cursor-pointer">
+                    <input
+                      name="tweetMedia"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleChange}
+                    />
+                  </label>
                 </div>
                 <div className={styles.inner_rapper}>
                   <SentimentSatisfiedAltIcon

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../services/api";
 import { UserContext } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 export let TweetContext = createContext();
 
@@ -49,42 +50,61 @@ const TweetContextProvider = ({ children }) => {
       formData.append("tweetMedia", tweetMedia);
     }
 
-    api
-      .post(
-        "/add-tweet",
-        formData,
-        { withCredentials: true },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.data.success) {
-          setAddedPost(true);
-          setPostLoading(true);
-        }
-      })
-      .catch((err) => console.log(err));
+    try {
+      api
+        .post(
+          "/add-tweet",
+          formData,
+          { withCredentials: true },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.success) {
+            setAddedPost(true);
+            setPostLoading(true);
+            toast.success(res.data.message);
+          } else {
+            toast.error("error while posting!");
+          }
+        })
+        .catch((err) => toast.error(err.message));
 
-    setTweet(initialState);
+      setTweet(initialState);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   useEffect(() => {
-    user &&
-      api.get("/get-all-posts", { withCredentials: true }).then((res, req) => {
-        setGlobalTweets([...res.data.data]);
-        setAddedPost(false);
-        setPostLoading(false);
-      });
+    try {
+      user &&
+        api
+          .get("/get-all-posts", { withCredentials: true })
+          .then((res, req) => {
+            setGlobalTweets([...res.data.data]);
+            setAddedPost(false);
+            setPostLoading(false);
+          });
+    } catch (err) {
+      toast.error(err.message);
+    }
   }, [addedPost, user]);
 
   useEffect(() => {
-    user &&
-      api.get("/get-user-posts", { withCredentials: true }).then((res, req) => {
-        setUserTweets([...res.data.data]);
-      });
+    try {
+      user &&
+        api
+          .get("/get-user-posts", { withCredentials: true })
+          .then((res, req) => {
+            setUserTweets([...res.data.data]);
+          });
+    } catch (err) {
+      toast.error(err.message);
+    }
   }, [addedPost, user]);
 
   return (

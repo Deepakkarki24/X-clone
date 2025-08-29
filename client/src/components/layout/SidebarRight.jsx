@@ -31,21 +31,10 @@ function SidebarRight() {
 
         <div className={styles.trending_events_box}>
           {/* Trending Event component */}
-          <TrendingEvent
-            trendingTop={"Trending in India"}
-            trendingMiddle={"#React🔥"}
-            trendingBottom={"Trending with "}
-            trendingBottomBlue={"#ReactJS"}
-          />
-          <TrendingEvent
-            trendingTop={"Checkout my LinkedIn"}
-            trendingMiddle={"#ConnectWithMe"}
-            trendingBottom={"Deepak Karki 👈🏻 on "}
-            trendingBottomBlue={"#LinkedIn"}
-          />
+
           <TrendingEvent
             trendingTop={"Give Your Feedback as post"}
-            trendingMiddle={"Feed back with image or gif 🤍"}
+            trendingMiddle={"Feedback with Amazing posts🤍"}
             trendingBottom={"Post your Feedback"}
             trendingBottomBlue={"#showlove"}
           />

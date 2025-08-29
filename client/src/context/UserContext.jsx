@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 export let UserContext = createContext();
 
@@ -9,9 +10,77 @@ const UserContextProvider = ({ children }) => {
   let [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  console.log(user);
+  //modal
 
-  // const API_URL = import.meta.env.VITE_API_URL;
+  let initialState = {
+    profile_image: "",
+    cover_image: "",
+    name: "",
+    bio: "",
+    location: "",
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  if (formData.cover_image || formData.profile_image) {
+    const data = new FormData();
+    if (formData.profile_image)
+      data.append("profile_image", formData.profile_image);
+    if (formData.cover_image) data.append("cover_image", formData.cover_image);
+
+    api
+      .post("/edit-profile", data, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setUser(res.data.data);
+          toast.success(res.data.message);
+          setFormData(initialState);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        console.log(err);
+      });
+  }
+
+  const handleMediaSubmit = (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    if (formData.profile_image)
+      data.append("profile_image", formData.profile_image);
+    if (formData.cover_image) data.append("cover_image", formData.cover_image);
+    if (formData.name) data.append("name", formData.name);
+    if (formData.bio) data.append("bio", formData.bio);
+    if (formData.location) data.append("location", formData.location);
+
+    api
+      .post("/edit-profile", data, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setUser(res.data.data);
+          setFormData(initialState);
+          toast.success(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  };
+  //modal
+
+  // console.log(user);
 
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -115,11 +184,15 @@ const UserContextProvider = ({ children }) => {
           }));
           setUser(res.data.data);
           setIsLoading(true);
+
+          toast.success(res.data.message);
+
           setTimeout(() => {
             navigate("/dashboard/feed");
             setIsLoading(false);
           }, 1000);
         } else {
+          toast.error("error while signup!");
           setSignupDbMessage((prev) => ({
             ...prev,
             err: { message: res.data.message },
@@ -129,7 +202,7 @@ const UserContextProvider = ({ children }) => {
         }
       })
       .catch((err) => {
-        return err;
+        return toast.error(err.message);
       });
   };
   // signup logic ends
@@ -194,11 +267,13 @@ const UserContextProvider = ({ children }) => {
           }));
           setUser(res.data.data);
           setIsLoading(true);
+          toast.success(res.data.message);
+          navigate("/dashboard/feed");
           setTimeout(() => {
-            navigate("/dashboard/feed");
             setIsLoading(false);
-          }, 1500);
+          }, 1000);
         } else {
+          toast.error(res.data.message);
           setLoginDbMessage((prev) => ({
             error: { message: res.data.message },
           }));
@@ -206,7 +281,7 @@ const UserContextProvider = ({ children }) => {
           return;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
 
     userLoginDetails.username.current.value = "";
     userLoginDetails.password.current.value = "";
@@ -220,10 +295,14 @@ const UserContextProvider = ({ children }) => {
       .then((res) => {
         if (res.data.success) {
           setUser(null);
-          navigate("/");
+          toast.success(res.data.message);
+          setIsLoading(true);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
   //logout ends
 
@@ -257,6 +336,10 @@ const UserContextProvider = ({ children }) => {
         setUser,
         authLoading,
         handleLogout,
+        handleMediaSubmit,
+        formData,
+        setFormData,
+        handleChange,
       }}
     >
       {children}

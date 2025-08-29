@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./layout/SidebarRight.module.css";
-import MoreHoriz from "@mui/icons-material/MoreHoriz";
 
 function TrendingEvent({
   trendingTop,
   trendingBottom,
   trendingMiddle,
   trendingBottomBlue,
+  linkk,
 }) {
   return (
     <div className={styles.trending_event}>
@@ -18,7 +18,6 @@ function TrendingEvent({
           <span className="text-norm fw-normal">{trendingBottomBlue}</span>
         </h4>
       </div>
-      <MoreHoriz className={styles.icon} />
     </div>
   );
 }
