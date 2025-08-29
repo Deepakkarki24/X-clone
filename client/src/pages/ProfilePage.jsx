@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import ContentBuffer from "../components/ContentBuffer";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import styles from "../components/post/Feed.module.css";
-
-import coverImg from "../assets/anime1.jpg";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import { TweetContext } from "../context/TweetContext";
@@ -106,12 +104,6 @@ const ProfilePage = () => {
                     {user.location}
                   </span>
                 )}
-                <span className="dob">
-                  <span>
-                    <CakeOutlinedIcon />
-                  </span>
-                  Date of birth
-                </span>
               </div>
               <div className="userFollows text-[14px] flex gap-4 mt2">
                 <span className="font-bold ">
