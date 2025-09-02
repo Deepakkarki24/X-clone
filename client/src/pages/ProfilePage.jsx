@@ -149,13 +149,15 @@ const ProfilePage = () => {
                   <Post
                     key={index}
                     avatar={`${API_URL.replace(/\/$/, "")}/public/images/${
-                      user.profileImg
+                      tweet.userId.profileImg
                     }`}
-                    displayName={user && user.name}
+                    displayName={tweet.userId && tweet.userId.name}
                     verified="verified"
-                    userName={user && user.username}
+                    userName={tweet.userId && tweet.userId.username}
                     captionText={tweet.tweetText}
                     media={tweet.tweetMedia.url}
+                    postId={tweet._id}
+                    postLikes={tweet.likes}
                   />
                 ))
               ) : (

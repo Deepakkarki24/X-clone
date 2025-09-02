@@ -15,8 +15,6 @@ const TweetContextProvider = ({ children }) => {
   const [tweet, setTweet] = useState(() => initialState);
   const [postLoading, setPostLoading] = useState(false);
 
-  // const API_URL = import.meta.env.VITE_API_URL;
-
   // all tweets list
   const [globalTweets, setGlobalTweets] = useState([]);
   const [userTweets, setUserTweets] = useState([]);
@@ -79,6 +77,30 @@ const TweetContextProvider = ({ children }) => {
     }
   };
 
+  const handleLike = async (id) => {
+    api
+      .get(`/like-post/${id}`, { withCredentials: true })
+      .then((res) => {
+        if (res.data.success) {
+          setGlobalTweets((prev) =>
+            prev.map((tweet) =>
+              tweet._id === id
+                ? { ...tweet, likes: res.data.data.likes }
+                : tweet
+            )
+          );
+          setUserTweets((prev) =>
+            prev.map((tweet) =>
+              tweet._id === id
+                ? { ...tweet, likes: res.data.data.likes }
+                : tweet
+            )
+          );
+        }
+      })
+      .catch((err) => toast.error(err.messsage));
+  };
+
   useEffect(() => {
     try {
       user &&
@@ -118,6 +140,7 @@ const TweetContextProvider = ({ children }) => {
         setPostLoading,
         postLoading,
         userTweets,
+        handleLike,
       }}
     >
       {children}

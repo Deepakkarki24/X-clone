@@ -84,4 +84,42 @@ postRouter.get("/get-user-posts", authMiddleware, async (req, res) => {
   }
 });
 
+postRouter.get("/like-post/:id", authMiddleware, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.id;
+
+    let foundPost = await Post.findById(postId);
+    if (!foundPost) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post not found" });
+    }
+
+    if (foundPost.likes.includes(userId)) {
+      {
+        foundPost.likes = foundPost.likes.filter(
+          (id) => id.toString() !== userId
+        );
+        await foundPost.save();
+        return res.json({
+          success: true,
+          message: "Post unliked",
+          data: foundPost,
+        });
+      }
+    } else {
+      foundPost.likes.push(userId);
+      await foundPost.save();
+      return res.json({
+        success: true,
+        message: "Post liked",
+        data: foundPost,
+      });
+    }
+  } catch (err) {
+    return res.status(401).json({ success: false, message: err.message });
+  }
+});
+
 export default postRouter;

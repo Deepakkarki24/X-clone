@@ -17,14 +17,14 @@ const Layout = () => {
     <>
       {isloading && <LoadingPage />}
 
-      <div className="layout_bx flex px-12 bg-black">
-        <nav className="flex-1/12">
+      <div className="layout_bx flex bg-black px-10">
+        <nav className="flex-3/12 border-r-[1px] border-[var(--border-line-color)] min-h-screen">
           <SideBar user={user} setLogoutModal={setLogoutModal} />
         </nav>
-        <main className="flex-1/3">
+        <main className="flex-2/4 border-x-[1px] border-[var(--border-line-color)] min-h-screen">
           <Outlet />
         </main>
-        <section className="flex-1/6">
+        <section className="flex-3/12">
           <SidebarRight />
         </section>
         {logoutModal && <Logout setLogoutModal={setLogoutModal} />}

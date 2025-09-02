@@ -15,19 +15,19 @@ function SidebarRight() {
       {/* search box area */}
 
       {/* subscribe area */}
-      <div className={`${styles.subscribe} ${styles.box_style}`}>
+      {/* <div className={`${styles.subscribe} ${styles.box_style}`}>
         <h3 className={styles.title}>Subscribe to Premium</h3>
         <p className={`${styles.desc} my-4`}>
           Subscribe to unlock new features and if eligible, receive a share of
           ads revenue
         </p>
         <Button btnElement={"Subscribe"} />
-      </div>
+      </div> */}
       {/* subscribe area */}
 
       {/* happening area */}
       <div className={`${styles.box_style} ${styles.happening}`}>
-        <h3 className={styles.title}>#astags for You !</h3>
+        <h3 className={styles.title}>#Hastags for You !</h3>
 
         <div className={styles.trending_events_box}>
           {/* Trending Event component */}
@@ -41,7 +41,6 @@ function SidebarRight() {
 
           {/* Trending Event component */}
         </div>
-        <a href="#">Show more</a>
       </div>
       {/* happening area */}
     </div>

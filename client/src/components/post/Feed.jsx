@@ -97,6 +97,8 @@ function Feed() {
               userName={tweet.userId && tweet.userId.username}
               captionText={tweet.tweetText}
               media={tweet.tweetMedia.url}
+              postId={tweet._id}
+              postLikes={tweet.likes}
             />
           ))
         )}

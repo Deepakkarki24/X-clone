@@ -74,8 +74,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 10%;
-    margin-top: 10px;
+    width: 80%;
+    padding: 10px;
 }
 
 .icon_box {
