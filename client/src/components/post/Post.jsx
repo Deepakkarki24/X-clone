@@ -24,100 +24,104 @@ function Post({
   const { handleLike } = useContext(TweetContext);
   const { user } = useContext(UserContext);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   return (
-    <div className="p-4 md:p-5 border-b border-[var(--border-line-color)] hover:bg-zinc-900 transition-all w-full max-w-xl mx-auto">
+    <div className="p-3 sm:p-5 border-b border-[var(--border-line-color)] hover:bg-zinc-900 w-full max-w-xl mx-auto">
       <div>
+        {/* Post Header */}
         <div
-          className={`${styles.post_header} flex flex-wrap gap-x-2 gap-y-1 items-center justify-between`}
+          className={`${styles.post_header} flex justify-between gap-x-2 items-center`}
         >
           <div
-            className={`${styles.user_det} flex items-center gap-x-2 min-w-0`}
+            className={`${styles.user_det} flex items-center gap-x-2 flex-wrap min-w-0`}
           >
-            <div className="avatar w-10 h-10 md:w-12 md:h-12">
-              <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
+            <div className="avatar w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0">
+              <Avatar src={avatar} sx={{ width: "100%", height: "100%" }} />
             </div>
             <div
-              className={`${styles.display_name} truncate text-base md:text-lg`}
+              className={`${styles.display_name} text-sm sm:text-base md:text-lg font-semibold truncate`}
             >
               <h3>{displayName}</h3>
             </div>
-            <div className="verified_icon flex items-center ml-1">
-              {verified && (
+            {verified && (
+              <div className="verified_icon flex items-center ml-1">
                 <VerifiedOutlinedIcon
-                  className={`${styles.verified_ico} text-base md:text-lg`}
+                  className={`${styles.verified_ico} text-xs sm:text-base`}
                 />
-              )}
-            </div>
+              </div>
+            )}
             <div
-              className={`${styles.user_name} text-gray-500 text-sm md:text-base ml-1 truncate`}
+              className={`${styles.user_name} text-xs sm:text-sm text-gray-500 ml-1 truncate`}
             >
               <h4>@{userName}</h4>
             </div>
           </div>
           <MoreHoriz className="text-zinc-300 cursor-pointer" />
         </div>
-
+        {/* Post Content */}
         <div className={`${styles.post_content} mt-2`}>
-          <div className={`${styles.caption} mb-2`}>
-            <p className="text-sm md:text-base">{captionText}</p>
+          <div className={`${styles.caption}`}>
+            <p className="mb-2 text-sm sm:text-base break-words">
+              {captionText}
+            </p>
           </div>
           {media && (
-            <div className={`${styles.post} mb-2`}>
+            <div className={`${styles.post} mb-2 w-full`}>
               <img
                 src={media}
                 alt="post"
-                className="max-w-full h-auto rounded-xl"
-                style={{ objectFit: "cover" }}
+                className="max-w-full w-full h-auto rounded-xl object-cover"
+                style={{ aspectRatio: "16/9" }}
               />
             </div>
           )}
-          <div className={`${styles.engagement_action_box} flex gap-4 mt-2`}>
+          {/* Engagement Actions */}
+          <div
+            className={`${styles.engagement_action_box} flex gap-2 sm:gap-4 mt-2 flex-wrap`}
+          >
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center`}
+              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
             >
               <ChatBubbleOutlineOutlinedIcon
-                className={`${styles.engagement_action_icon} text-base md:text-lg`}
+                className={`${styles.engagement_action_icon} text-base sm:text-lg`}
               />
-              <small className="text-gray-500 text-center p-1 md:p-2">
+              <small className="text-gray-500 text-center text-xs sm:text-sm pt-1">
                 Comment
               </small>
             </div>
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center`}
+              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
             >
               <AutorenewOutlinedIcon
-                className={`${styles.engagement_action_icon} text-base md:text-lg`}
+                className={`${styles.engagement_action_icon} text-base sm:text-lg`}
               />
-              <small className="text-gray-500 text-center p-1 md:p-2">
+              <small className="text-gray-500 text-center text-xs sm:text-sm pt-1">
                 Repost
               </small>
             </div>
             <div
               onClick={() => handleLike(postId)}
-              className={`${styles.action_icon_box} flex flex-col items-center cursor-pointer`}
+              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px] cursor-pointer`}
             >
               {postLikes && postLikes.includes(user._id) ? (
                 <FavoriteIcon
-                  className={`${styles.engagement_action_icon} text-base md:text-lg`}
+                  className={`${styles.engagement_action_icon} text-base sm:text-lg text-pink-500`}
                 />
               ) : (
                 <FavoriteBorderIcon
-                  className={`${styles.engagement_action_icon} text-base md:text-lg`}
+                  className={`${styles.engagement_action_icon} text-base sm:text-lg`}
                 />
               )}
-              <small className="text-gray-500 text-center p-1 md:p-2">
+              <small className="text-gray-500 text-center text-xs sm:text-sm pt-1">
                 {postLikes && postLikes.length > 0 && postLikes.length}
               </small>
             </div>
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center`}
+              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
             >
               <IosShareOutlinedIcon
-                className={`${styles.engagement_action_icon} text-base md:text-lg`}
+                className={`${styles.engagement_action_icon} text-base sm:text-lg`}
               />
-              <small className="text-gray-500 text-center p-1 md:p-2">
+              <small className="text-gray-500 text-center text-xs sm:text-sm pt-1">
                 Share
               </small>
             </div>
