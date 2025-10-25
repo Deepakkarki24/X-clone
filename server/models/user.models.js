@@ -22,12 +22,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  posts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "post",
-    },
-  ],
   location: {
     type: String,
     default: null,
@@ -38,6 +32,10 @@ const userSchema = new mongoose.Schema({
   },
   profileImg: { type: String, default: "profile_default.jpg" },
   coverImg: { type: String, default: "cover_default.jpg" },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const User = mongoose.model("user", userSchema);
