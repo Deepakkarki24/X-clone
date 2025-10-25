@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import styles from "./SideBar.module.css";
-
 import SidebarOptions from "../layout/SidebarOptions";
-
 import HomeIcon from "@mui/icons-material/Home";
 import SearcIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -15,23 +13,25 @@ import Button from "../ButtonB&W";
 
 const SideBar = ({ setLogoutModal, user }) => {
   const API_URL = import.meta.env.VITE_API_URL;
-
   return (
     <>
-      <div className={`${styles.sidebar}  bg-black`}>
+      <div
+        className={`${styles.sidebar} bg-black min-h-screen w-full max-w-xs md:max-w-sm px-2 md:px-6 py-4 flex flex-col justify-between`}
+      >
         <div className={styles.sidebar_top}>
+          {/* Logo */}
           <div className={styles.logo}>
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
-              className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-1nao33i r-16y2uox r-8kz0gk"
+              className="w-8 md:w-12 lg:w-16"
             >
               <g>
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
               </g>
             </svg>
           </div>
-          {/* Sidebar Options component */}
+          {/* Sidebar Options */}
           <SidebarOptions
             optionName={"Home"}
             Icon={HomeIcon}
@@ -48,16 +48,18 @@ const SideBar = ({ setLogoutModal, user }) => {
             <SidebarOptions
               optionName={"Profile"}
               Icon={PersonIcon}
-              routePath={`/dashboard/profile/${user && user.username}`}
+              routePath={`/dashboard/profile/${user.username}`}
             />
           )}
           <SidebarOptions optionName={"More"} Icon={MoreHorizIcon} />
-          {/* Sidebar Options component */}
         </div>
-
-        <div onClick={() => setLogoutModal(true)} className={styles.user}>
-          <div className={styles.user_profilebox}>
-            <div className="user_img w-[45px] ">
+        {/* User Box */}
+        <div
+          onClick={() => setLogoutModal(true)}
+          className={`${styles.user} flex items-center justify-between mt-4 cursor-pointer`}
+        >
+          <div className={`${styles.user_profilebox} flex items-center`}>
+            <div className="user_img w-11 h-11 mr-2">
               <Avatar
                 src={`${API_URL.replace(/\/$/, "")}/public/images/${
                   user.profileImg
@@ -65,11 +67,13 @@ const SideBar = ({ setLogoutModal, user }) => {
               />
             </div>
             <div className={styles.user_name}>
-              <h3 className="name">{user && user.name}</h3>
-              <h4 className={styles.user_name}>@{user && user.username}</h4>
+              <h3 className="name text-base md:text-lg">{user?.name}</h3>
+              <h4 className="text-sm md:text-base text-gray-400">
+                @{user?.username}
+              </h4>
             </div>
           </div>
-          <MoreHorizIcon className={styles.more_icon} />
+          <MoreHorizIcon className={`${styles.more_icon} ml-2`} />
         </div>
       </div>
     </>

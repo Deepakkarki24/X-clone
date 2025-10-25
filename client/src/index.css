@@ -12,6 +12,10 @@ body {
   width: 100%;
 }
 
+input {
+  width: 100% !important;
+}
+
 .global_white {
   color: #E7E9EA;
 }

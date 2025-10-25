@@ -147,40 +147,12 @@
         width: 90%;
     }
 
-    .post_section_mob {
-        position: fixed;
-        background-color: #000;
-        z-index: 9;
-        top: 0;
-        width: 370px;
-        height: 100vh;
-        padding: 18px 0;
-        left: 0;
-        display: block;
-    }
-
-    .sticky_icon_mob {
-        visibility: visible !important;
-    }
-
     .top_navigation {
         justify-content: center;
         top: 32px;
     }
 
     .mob_top_nav {
-        display: block !important;
-    }
-
-    .setting_box {
-        display: none;
-    }
-
-    .back_icon_box {
-        display: block !important;
-    }
-
-    .mob_hide {
         display: block !important;
     }
 
@@ -195,22 +167,6 @@
         top: 0;
     }
 
-}
-
-.sticky_icon_mob {
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-    background-color: var(--primary-color-three);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    right: 6%;
-    bottom: 100px;
-    z-index: 99;
-    visibility: hidden;
 }
 
 .logo svg {
@@ -231,16 +187,4 @@
     position: sticky;
     top: 0;
     z-index: 2;
-}
-
-.backIcon {
-    cursor: pointer;
-}
-
-.back_icon_box {
-    display: none;
-}
-
-.mob_hide {
-    display: none;
 }

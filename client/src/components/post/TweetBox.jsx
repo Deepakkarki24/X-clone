@@ -10,31 +10,37 @@ const TweetBox = ({ user, API_URL }) => {
   const { handleChange, tweetText, sendTweet } = useContext(TweetContext);
   return (
     <>
-      <div className={styles.post_section}>
+      <div
+        className={`${styles.post_section} bg-black w-full max-w-2xl px-2 md:px-6 py-3 rounded-xl mx-auto`}
+      >
         <form onSubmit={sendTweet}>
-          <div className={styles.user_input}>
-            <div className="user_img w-[45px] ">
+          {/* Input Area */}
+          <div className={`${styles.user_input} flex items-start gap-4`}>
+            <div className="user_img w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
               <Avatar
-                src={`${API_URL.replace(/\/$/, "")}/public/images/${
-                  user.profileImg
+                src={`${API_URL?.replace(/\/$/, "")}/public/images/${
+                  user?.profileImg
                 }`}
               />
             </div>
-
             <textarea
-              className={`${styles.form_control} p-2 resize-none`}
+              className={`${styles.form_control} p-2 resize-none w-full text-sm md:text-base`}
               name="tweetText"
               value={tweetText}
               onChange={handleChange}
               placeholder="What is happening?!"
               autoComplete="off"
+              rows={2}
             ></textarea>
           </div>
 
-          <div className={styles.user_actions}>
-            <div className={styles.upload_actions}>
+          {/* Actions */}
+          <div
+            className={`${styles.user_actions} flex flex-col w-full md:flex-row items-end justify-between gap-2 mt-2`}
+          >
+            <div className={`${styles.upload_actions} flex gap-2`}>
               <div className={styles.icon_box}>
-                <div className={styles.inner_rapper}>
+                <div className={`${styles.inner_rapper} relative`}>
                   <AttachFileIcon
                     fontSize="small"
                     className={styles.fileIcon}
@@ -69,7 +75,7 @@ const TweetBox = ({ user, API_URL }) => {
             <button
               onClick={sendTweet}
               type="submit"
-              className="opacity-100  transition-all cursor-pointer font-bold rounded-3xl bg-[#fff] text-black text-center w-[15%] p-1"
+              className="opacity-100 transition-all cursor-pointer font-bold rounded-3xl bg-white text-black text-center w-full md:w-32 p-2 md:p-1 text-sm md:text-base mt-2 md:mt-0"
             >
               Post
             </button>

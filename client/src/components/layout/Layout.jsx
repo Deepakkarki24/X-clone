@@ -1,30 +1,30 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import SideBar from "./SideBar";
 import SidebarRight from "./SidebarRight";
 import { UserContext } from "../../context/UserContext";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 import Logout from "../auth/Logout";
 
 const Layout = () => {
-  let navigate = useNavigate();
-
   let { user, isloading } = useContext(UserContext);
-
   let [logoutModal, setLogoutModal] = useState(false);
 
   return (
     <>
       {isloading && <LoadingPage />}
 
-      <div className="layout_bx flex bg-black px-10">
-        <nav className="flex-3/12 border-r-[1px] border-[var(--border-line-color)] min-h-screen">
+      <div className="layout_bx bg-black min-h-screen flex flex-col md:flex-row px-2 md:px-6 lg:px-10">
+        {/* Sidebar (Left) */}
+        <nav className="w-full md:w-1/4 lg:w-1/5 border-b md:border-b-0 md:border-r border-[var(--border-line-color)]">
           <SideBar user={user} setLogoutModal={setLogoutModal} />
         </nav>
-        <main className="flex-2/4 border-x-[1px] border-[var(--border-line-color)] min-h-screen">
+        {/* Main Content Area */}
+        <main className="w-full md:w-1/2 border-b md:border-b-0 border-x border-[var(--border-line-color)] min-h-[60vh]">
           <Outlet />
         </main>
-        <section className="flex-3/12">
+        {/* SidebarRight (Right) */}
+        <section className="w-full md:w-1/4 lg:w-1/5">
           <SidebarRight />
         </section>
         {logoutModal && <Logout setLogoutModal={setLogoutModal} />}

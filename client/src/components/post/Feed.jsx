@@ -1,6 +1,4 @@
 import styles from "./Feed.module.css";
-import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-
 import { useContext, useState } from "react";
 import Post from "./Post";
 import Avatar from "@mui/material/Avatar";
@@ -10,6 +8,8 @@ import { TweetContext } from "../../context/TweetContext";
 import ContentBuffer from "../ContentBuffer";
 import { useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import MobileNav from "../MobileNav";
+import Logout from "../auth/Logout";
 
 function Feed() {
   const [isActiveTab, setIsActiveTab] = useState(() => ({
@@ -17,6 +17,8 @@ function Feed() {
     isActiveForyou: true,
     isActiveFollowing: false,
   }));
+
+  const [logout, setLogout] = useState(false);
 
   const { tabname, isActiveFollowing } = isActiveTab;
 
@@ -32,10 +34,14 @@ function Feed() {
 
   return (
     <>
+      {logout && <Logout setLogout={setLogout} />}
       <div className={`${styles.feed} bg-black `}>
         <div className={styles.mob_top_nav}>
           <div className={styles.flex_top}>
-            <Avatar src={`${API_URL}public/images/${user.profileImg}`} />
+            <Avatar
+              onClick={() => setLogout(true)}
+              src={`${API_URL}public/images/${user.profileImg}`}
+            />
             <div className={styles.logo}>
               <svg
                 viewBox="0 0 24 24"
@@ -102,10 +108,7 @@ function Feed() {
             />
           ))
         )}
-
-        <div className={styles.sticky_icon_mob}>
-          <HistoryEduIcon fontSize="large" />
-        </div>
+        <MobileNav />
       </div>
     </>
   );

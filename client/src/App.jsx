@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MobilePostPage from "./components/MobilePostPage";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             </PrivateRoute>
           }
         >
+          <Route path="post" element={<MobilePostPage />} />
           <Route path="feed" element={<Feed />} />
           <Route path="profile/:username" element={<ProfilePage />} />
         </Route>
