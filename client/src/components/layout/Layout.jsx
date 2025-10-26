@@ -20,7 +20,7 @@ const Layout = () => {
           <SideBar user={user} setLogoutModal={setLogoutModal} />
         </nav>
         {/* Main Content Area */}
-        <main className="w-full md:w-1/2 border-b md:border-b-0 border-x border-[var(--border-line-color)] min-h-[60vh]">
+        <main className="w-full mb-20 md:mb-0 lg:mb-0 md:w-1/2 border-b md:border-b-0 border-x border-[var(--border-line-color)] min-h-[60vh]">
           <Outlet />
         </main>
         {/* SidebarRight (Right) */}
