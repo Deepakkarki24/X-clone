@@ -74,7 +74,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80%;
     padding: 10px;
 }
 
@@ -141,10 +140,6 @@
 
     .post_section {
         display: none;
-    }
-
-    .user_actions {
-        width: 90%;
     }
 
     .top_navigation {
