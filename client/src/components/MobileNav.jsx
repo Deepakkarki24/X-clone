@@ -9,7 +9,7 @@ import { UserContext } from "../context/UserContext";
 const MobileNav = () => {
   const { user } = useContext(UserContext);
   const API_URL = import.meta.env.VITE_API_URL;
-  const avtarSrc = `${API_URL}public/images/${user.profileImg}`;
+  const avtarSrc = `${API_URL}/public/images/${user.profileImg}`;
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-black border-t border-zinc-800 flex justify-between items-center px-4 py-2 z-50 md:hidden">
       {/* Left: Home */}

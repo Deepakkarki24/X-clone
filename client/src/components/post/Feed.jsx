@@ -40,7 +40,7 @@ function Feed() {
           <div className={styles.flex_top}>
             <Avatar
               onClick={() => setLogout(true)}
-              src={`${API_URL}public/images/${user.profileImg}`}
+              src={`${API_URL}/public/images/${user.profileImg}`}
             />
             <div className={styles.logo}>
               <svg
