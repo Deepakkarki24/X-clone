@@ -4,7 +4,7 @@ import { FaXmark } from "react-icons/fa6";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-const Logout = ({ setLogoutModal, setLogout }) => {
+const Logout = ({ setLogoutModal }) => {
   const { handleLogout } = useContext(UserContext);
   return (
     <div className="logout_modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -17,7 +17,6 @@ const Logout = ({ setLogoutModal, setLogout }) => {
       >
         <FaXmark
           onClick={() => {
-            setLogout(false);
             setLogoutModal(false);
           }}
           className="cursor-pointer absolute top-4 left-4"
