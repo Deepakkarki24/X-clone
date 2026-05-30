@@ -167,7 +167,9 @@ const ProfilePage = () => {
         ) : (
           <ContentBuffer />
         )}
-        {modalState && <Modal setModalState={setModalState} />}
+        {modalState && (
+          <Modal setModalState={setModalState} isOpen={modalState} />
+        )}
       </section>
       <MobileNav />
     </div>

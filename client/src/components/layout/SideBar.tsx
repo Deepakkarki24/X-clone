@@ -62,7 +62,7 @@ const SideBar = ({ setLogoutModal, user }: SideBarProps) => {
         onKeyDown={(e) => e.key === "Enter" && setLogoutModal(true)}
       >
         <div className={`${styles.user_profilebox} flex items-center`}>
-          <div className="user_img w-11 h-11 mr-2">
+          <div className="user_img w-11 h-11">
             <Avatar src={getPublicImageUrl(user.profileImg)} />
           </div>
           <div className={styles.user_name}>

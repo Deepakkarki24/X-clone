@@ -8,7 +8,7 @@ const Button = ({ btnElement, onClick, type = "submit" }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="opacity-100 transition-all cursor-pointer font-bold rounded-3xl bg-[#fff] text-black text-center w-full p-3"
+      className="opacity-100 hover:bg-black/60 hover:text-white transition-all cursor-pointer font-bold rounded-3xl bg-[#fff] text-black text-center w-full p-3"
       type={type}
     >
       {btnElement}

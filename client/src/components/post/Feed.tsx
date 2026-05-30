@@ -28,7 +28,9 @@ function Feed() {
 
   return (
     <>
-      {logoutModal && <Logout setLogoutModal={setLogoutModal} />}
+      {logoutModal && (
+        <Logout isOpen={logoutModal} setLogoutModal={setLogoutModal} />
+      )}
       <div className={`${styles.feed} bg-black`}>
         <div className={styles.mob_top_nav}>
           <div className={styles.flex_top}>

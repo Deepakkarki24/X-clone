@@ -26,7 +26,9 @@ const Layout = () => {
         <section className="w-full md:w-1/4 lg:w-1/5">
           <SidebarRight />
         </section>
-        {logoutModal && <Logout setLogoutModal={setLogoutModal} />}
+        {logoutModal && (
+          <Logout isOpen={logoutModal} setLogoutModal={setLogoutModal} />
+        )}
       </div>
     </>
   );

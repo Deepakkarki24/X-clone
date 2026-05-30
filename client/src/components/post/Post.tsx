@@ -35,7 +35,7 @@ function Post({
   const { user } = useUserContext();
 
   return (
-    <div className="p-3 sm:p-5 border-b border-[var(--border-line-color)] hover:bg-zinc-900 w-full max-w-xl mx-auto">
+    <div className="p-3 sm:p-5 border-b border-[var(--border-line-color)] w-full max-w-xl mx-auto">
       <div>
         <div
           className={`${styles.post_header} flex justify-between gap-x-2 items-center`}
@@ -68,7 +68,9 @@ function Post({
         </div>
         <div className={`${styles.post_content} mt-2`}>
           <div className={styles.caption}>
-            <p className="mb-2 text-sm sm:text-base break-words">{captionText}</p>
+            <p className="mb-2 text-sm sm:text-base break-words">
+              {captionText}
+            </p>
           </div>
           {media && (
             <div className={`${styles.post} mb-2 w-full`}>
@@ -84,7 +86,7 @@ function Post({
             className={`${styles.engagement_action_box} flex gap-2 sm:gap-4 mt-2 flex-wrap`}
           >
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
+              className={`${styles.action_icon_box} flex flex-col hover:bg-zinc-900 rounded-xl items-center w-1/5 min-w-[60px]`}
             >
               <ChatBubbleOutlineOutlinedIcon
                 className={`${styles.engagement_action_icon} text-base sm:text-lg`}
@@ -94,7 +96,7 @@ function Post({
               </small>
             </div>
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
+              className={`${styles.action_icon_box} flex flex-col hover:bg-zinc-900 rounded-xl items-center w-1/5 min-w-[60px]`}
             >
               <AutorenewOutlinedIcon
                 className={`${styles.engagement_action_icon} text-base sm:text-lg`}
@@ -105,7 +107,7 @@ function Post({
             </div>
             <div
               onClick={() => handleLike(postId)}
-              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px] cursor-pointer`}
+              className={`${styles.action_icon_box} flex flex-col hover:bg-zinc-900 rounded-xl items-center w-1/5 min-w-[60px] cursor-pointer`}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && handleLike(postId)}
@@ -120,11 +122,11 @@ function Post({
                 />
               )}
               <small className="text-gray-500 text-center text-xs sm:text-sm pt-1">
-                {postLikes.length > 0 && postLikes.length}
+                {postLikes.length > 0 ? postLikes.length : 0}
               </small>
             </div>
             <div
-              className={`${styles.action_icon_box} flex flex-col items-center w-1/5 min-w-[60px]`}
+              className={`${styles.action_icon_box} flex flex-col hover:bg-zinc-900 rounded-xl items-center w-1/5 min-w-[60px]`}
             >
               <IosShareOutlinedIcon
                 className={`${styles.engagement_action_icon} text-base sm:text-lg`}
