@@ -24,25 +24,25 @@ input {
 
 /* Width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 /* Track (background) */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   background: #737373;
   border-radius: 10px;
-}
+} */
 
 /* Thumb (scroll moving part) */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background: #8e90fc;
   border-radius: 10px;
-}
+} */
 
 /* Hover effect */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: #4f46e5;
-}
+} */
 
 /*  */
 

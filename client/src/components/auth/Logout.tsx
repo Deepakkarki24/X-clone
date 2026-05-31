@@ -28,12 +28,12 @@ const Logout: React.FC<LogoutProps> = ({ setLogoutModal, isOpen }) => {
 
   return (
     <div className="logout_modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 bg-opacity-40">
-      <div className="logout_inner relative m-auto max-w-sm max-h-[200px] h-full w-full bg-white/5 backdrop-blur-sm text-white rounded-2xl p-8 flex flex-col justify-between items-center shadow-lg">
+      <div className="logout_inner relative m-auto sm:max-w-sm max-w-[320px] max-h-[200px] h-full w-full bg-white/5 text-white rounded-2xl p-8 flex flex-col justify-between items-center backdrop-blur-sm">
         <FaXmark
           onClick={() => setLogoutModal(false)}
           className="cursor-pointer absolute hover:bg-black hover:text-white text-black w-fit h-fit top-4 right-4 bg-white rounded-full p-2"
         />
-        <p className="sm:text-xl text-sm font-semibold pt-10">
+        <p className="sm:text-xl text-base font-semibold pt-10">
           Do you want to logout?
         </p>
         <Button onClick={handleLogout} btnElement="Logout" />

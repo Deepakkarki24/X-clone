@@ -11,8 +11,11 @@ import Feed from "./components/post/Feed";
 import EducationalDisclaimer from "./pages/EducationalDisclaimer";
 import PrivateRoute from "./components/PrivateRoute";
 import MobilePostPage from "./components/MobilePostPage";
+import { useState } from "react";
 
 const App = () => {
+  const [logoutModal, setLogoutModal] = useState(false);
+
   return (
     <>
       <EducationalDisclaimer />
@@ -21,15 +24,21 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path="/dashboard"
+          path="/"
           element={
             <PrivateRoute>
-              <Layout />
+              <Layout
+                logoutModal={logoutModal}
+                setLogoutModal={setLogoutModal}
+              />
             </PrivateRoute>
           }
         >
           <Route path="post" element={<MobilePostPage />} />
-          <Route path="feed" element={<Feed />} />
+          <Route
+            path="feed"
+            element={<Feed setLogoutModal={setLogoutModal} />}
+          />
           <Route path="profile/:username" element={<ProfilePage />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />

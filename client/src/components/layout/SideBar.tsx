@@ -33,11 +33,7 @@ const SideBar = ({ setLogoutModal, user }: SideBarProps) => {
             </g>
           </svg>
         </div>
-        <SidebarOptions
-          optionName="Home"
-          Icon={HomeIcon}
-          routePath="/dashboard/feed"
-        />
+        <SidebarOptions optionName="Home" Icon={HomeIcon} routePath="/feed" />
         <SidebarOptions optionName="Explore" Icon={SearchIcon} />
         <SidebarOptions
           optionName="Notifications"
@@ -49,7 +45,7 @@ const SideBar = ({ setLogoutModal, user }: SideBarProps) => {
           <SidebarOptions
             optionName="Profile"
             Icon={PersonIcon}
-            routePath={`/dashboard/profile/${user.username}`}
+            routePath={`/profile/${user.username}`}
           />
         )}
         <SidebarOptions optionName="More" Icon={MoreHorizIcon} />
